@@ -41,6 +41,10 @@ Justin B. Ruggles <jruggle at earthlink.net>
 Justin F. Hallett <thesin at southofheaven.org>
   Fink packaging and matters OSX
 
+Klaus-Hendrik Wolf
+
+  Correct some typos in "util.c".
+
 KO Myung-Hun <komh at chollian.net> <komh78 at gmail.com>
   OS/2 Driver (since removed - see him for older versions)
 
@@ -60,7 +64,6 @@ Mansour Gashasbi <gashasbi@gmail.com>
 
 Michael Kukat <michael at unixiron.org>,
   for the hints in extractnrg.pl
-
 
 Natalia Portillo
   OSX BluRay support on OSX 10 and other OSX fixes
@@ -97,20 +100,30 @@ xboxmediacenter team (www.xboxmediacenter.de)
 
 Thomas Schmitt
   Recording and retrieval of SCSI sense reply. Write/burning interface.
-  MMC bug fixes
+  MMC bug fixes.
 
 Daniel Schwarz
-  log-summary option in cd-paranoia.
+  "log-summary" option in cd-paranoia.
 
 Robert Kausch
   Portability fixes on Windows, and other OS's. Add mmc_get_track_isrc
 
 Robert William Fuller
-  get_track_pregap_lba, get_track_pregap_lsn. Section on "CD-DA pregap"
+  Add get_track_pregap_lba(), get_track_pregap_lsn(). Section on "CD-DA pregap"
   in libcdio manual.
 
-  various fixes to Nero driver and cd-text for Nero
+  Various fixes to Nero driver and cd-text for Nero.
+
+Rodrigo Cox
+  Fix incorrect track length calculation for the last track on CDs
 
 Scot C. Bontrager
   mmc routine to get the ISRC information on a CD that is in the q subchannel
   but not showing up in the CDTEXT. Addition of this information to cd-info.
+
+UltraFuzzy
+  Correct USB device detection on MacOS.
+
+  Add cdio_get_device_fd()
+
+  Correct ISO 9660 timezone offsets
