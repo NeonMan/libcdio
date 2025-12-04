@@ -449,7 +449,7 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
           char *filename = cdio_abspath(dirname, psz_field);
           if (cd) {
 	      cd->gen.source_name = strdup(filename);
-	      cd->tocent[i + 1].filename = strdup(filename);
+	      cd->tocent[i].filename = strdup(filename);
 	  }
           free(filename);
           free(dirname);
@@ -467,12 +467,12 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
                      "%s line %d after word TRACK:",
                      psz_cue_name, i_line);
             cdio_log(log_level,
-                     "Expecting a track number, got %s", psz_field);
+                     "Expecting a track number, got %s.", psz_field);
             goto err_exit;
           }
           if (i_track < 1 || i_track > 99) {
             cdio_log(log_level,
-                     "Track number out of range 1 to 99, got %s", psz_field);
+                     "Track number out of range 1 to %d, got %s.", CDIO_CD_MAX_TRACKS, psz_field);
             goto err_exit;
           }
           if(cd) {
@@ -496,6 +496,13 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
             cd->gen.i_tracks++;
           }
           i++;
+	  if (i > CDIO_CD_MAX_TRACKS) {
+            cdio_warn(
+                "Track number %d is too large; maximum track number is %d.",
+                i, CDIO_CD_MAX_TRACKS);
+	    return DRIVER_OP_ERROR;
+	  }
+
 
           if (0 == strcmp("AUDIO", psz_field)) {
             if (cd) {
