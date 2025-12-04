@@ -31,6 +31,7 @@
 #include "_cdio_stdio.h"
 
 #include <cdio/logging.h>
+#include <cdio/track.h>
 #include <cdio/util.h>
 #include <cdio/version.h>
 
@@ -148,12 +149,20 @@ _lseek_bincue (void *p_user_data, off_t offset, int whence)
   */
   off_t real_offset=0;
 
-  unsigned int i;
+  unsigned int i_track;
 
   p_env->pos.lba = 0;
-  for (i=0; i<p_env->gen.i_tracks; i++) {
-    track_info_t  *this_track=&(p_env->tocent[i]);
-    p_env->pos.index = i;
+  for (i_track=0; i_track<p_env->gen.i_tracks; i_track++) {
+    track_info_t  *this_track;
+
+    if (i_track > CDIO_CD_MAX_TRACKS) {
+      cdio_warn ("Track number %d is too large; maximum track number is %d.", i_track, CDIO_CD_MAX_TRACKS);
+      return DRIVER_OP_ERROR;
+    }
+
+    this_track=&(p_env->tocent[i_track]);
+
+    p_env->pos.index = i_track;
     if ( (this_track->sec_count*this_track->datasize) >= offset) {
       int blocks            = (int) (offset / this_track->datasize);
       int rem               = (int) (offset % this_track->datasize);
@@ -168,11 +177,11 @@ _lseek_bincue (void *p_user_data, off_t offset, int whence)
     p_env->pos.lba += this_track->sec_count;
   }
 
-  if (i==p_env->gen.i_tracks) {
-    cdio_warn ("seeking outside range of disk image");
+  if (i_track==p_env->gen.i_tracks) {
+    cdio_warn ("Seeking outside range of disk image.");
     return DRIVER_OP_ERROR;
   } else {
-    real_offset += p_env->tocent[i].datastart;
+    real_offset += p_env->tocent[i_track].datastart;
     return cdio_stream_seek(p_env->gen.data_source, real_offset, whence);
   }
 }
