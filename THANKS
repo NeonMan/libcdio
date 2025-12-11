@@ -1,3 +1,6 @@
+BrunoSX
+  Add key `joliet-level` in cdio creation driver argument
+
 Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
   some GNU/Linux and CD-Text patches
 
@@ -74,6 +77,9 @@ Nicolas Boullis <nboullis at debian.org>
 Nigel Pearson nigel at ind dot tansu dot com dot au
   OSX 10 fixes
 
+Oldrich Strazovsky
+  Support ISRC in Image drivers
+
 Patrick Guimond
   CD-Extra audio data boundaries
 
@@ -127,3 +133,6 @@ UltraFuzzy
   Add cdio_get_device_fd()
 
   Correct ISO 9660 timezone offsets
+
+Yuxin Wang
+   Fix buffer overrun for Joliet filenames
