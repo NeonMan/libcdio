@@ -1,5 +1,5 @@
-#   Copyright (C) 2003-2004, 2006, 2008, 2011-2013, 2016, 2019, 2024
-#   2023 Rocky Bernstein <rocky@gnu.org>
+#   Copyright (C) 2003-2004, 2006, 2008, 2011-2013, 2016, 2019, 2023-2025
+#   Rocky Bernstein <rocky@gnu.org>
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 ##   which configure then turns into a Makefile  ...
 ##     which make can then use to produce stuff. Isn't configuration simple?
 
-.PHONY: ChangeLog check-leaks check-short test
+.PHONY: ChangeLog-without-corrections check-leaks check-short rmChangeLog test
 
 AUTOMAKE_OPTIONS = dist-bzip2
 
@@ -147,9 +147,17 @@ if MAINTAINER_MODE
 
 GIT2CL ?= git2cl
 
-#: Create ChangeLog from version control
-ChangeLog:
-	git log --pretty --numstat --summary | $(GIT2CL) >$@
+#: Remove ChangeLog
+rmChangeLog:
+	rm ChangeLog || true
+
+#: Create ChangeLog from version control without corrections
+ChangeLog-without-corrections:
+	git log --pretty --numstat --summary | $(GIT2CL) >ChangeLog
+
+#: Create ChangeLog from version control with additonal corrections
+ChangeLog: ChangeLog-without-corrections
+	patch ChangeLog < ChangeLog-spell-corrected.diff
 
 ACLOCAL_AMFLAGS=-I m4
 
