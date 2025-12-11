@@ -125,7 +125,7 @@ ISO9660::IFS::get_joliet_level()
 }
 
 /*!
-  Return true if ISO 9660 image has extended attrributes (XA).
+  Return true if ISO 9660 image has extended attributes (XA).
 */
 bool
 ISO9660::IFS::is_xa ()

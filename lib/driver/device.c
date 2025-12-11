@@ -51,7 +51,7 @@
 #endif
 
 /* The last valid entry of Cdio_driver.
-   -1 or (CDIO_DRIVER_UNINIT) means uninitialzed.
+   -1 or (CDIO_DRIVER_UNINIT) means uninitialized.
    -2 means some sort of error.
 */
 
@@ -282,11 +282,11 @@ cdio_driver_errmsg(driver_return_code_t drc)
   case DRIVER_OP_ERROR:
     return "driver I/O error";
   case DRIVER_OP_UNSUPPORTED:
-    return "driver operatation not supported";
+    return "driver operation not supported";
   case DRIVER_OP_UNINIT:
     return "driver not initialized";
   case DRIVER_OP_NOT_PERMITTED:
-    return "driver operatation not permitted";
+    return "driver operation not permitted";
   case DRIVER_OP_BAD_PARAMETER:
     return "bad parameter passed";
   case DRIVER_OP_BAD_POINTER:
@@ -611,7 +611,7 @@ cdio_get_devices_ret (/*in/out*/ driver_id_t *p_driver_id)
 
   If "any" is set false then every capability listed in the extended
   portion of capabilities (i.e. not the basic filesystem) must be
-  satisified. If "any" is set true, then if any of the capabilities
+  satisfied. If "any" is set true, then if any of the capabilities
   matches, we call that a success.
 
   To find a CD-drive of any type, use the mask CDIO_FS_MATCH_ALL.

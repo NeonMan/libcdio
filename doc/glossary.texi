@@ -195,7 +195,7 @@ International Standards Organization.
 @cindex ISO 13346
 
 ISO 13346 / ECMA-167 is a filesystem framework for data exchange on
-overwriteable or pseudo-overwritable media. It serves as the base of UDF.
+overwritable or pseudo-overwritable media. It serves as the base of UDF.
 
 @item ISO 13490
 @cindex ISO 13490

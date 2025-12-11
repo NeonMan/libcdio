@@ -450,7 +450,7 @@ int has_timeout=sizeof(test.timeout);]])],[AC_DEFINE([HAVE_LINUX_CDROM_TIMEOUT],
  	LT_NO_UNDEFINED="-no-undefined"
   	cd_drivers="${cd_drivers}, MinGW"
      	AC_DEFINE([NEED_TIMEZONEVAR], [1],
-                  [Define 1 if you need timezone defined to get timzone
+                  [Define 1 if you need timezone defined to get timezone
 		   defined as a variable. In cygwin it is a function too])
 	;;
      mingw*)
@@ -644,7 +644,7 @@ AC_ARG_ENABLE(compatibility,
 	enable_compatibility=$enableval, enable_compatibility=yes)
 if test "x${enable_compatibility}" != "xyes"; then
    AC_DEFINE(DO_NOT_WANT_COMPATIBILITY, [],
-   [Define this if you do not need compability with obsoleted libcdio APIs.])
+   [Define this if you do not need compatibility with obsoleted libcdio APIs.])
    DO_NOT_WANT_COMPATIBILITY=1
 fi
 

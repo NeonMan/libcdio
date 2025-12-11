@@ -1,6 +1,6 @@
 /*
     Copyright (C) 2018 Thomas Schmitt
-    Copyright (C) 2010, 2012, 2016, 2019 Rocky Bernstein <rocky@gnu.org>
+    Copyright (C) 2010, 2012, 2016, 2019, 2025 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -200,7 +200,7 @@ extern "C" {
     returned.
     - 3 &mdash Both sector header and sub-header (12 bytes) is returned.
 
-    The Header preceeds the rest of the bytes (e.g. user-data bytes)
+    The Header precedes the rest of the bytes (e.g. user-data bytes)
     that might get returned.
 
     @param b_user_data  Return user data if true.

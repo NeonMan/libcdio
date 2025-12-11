@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2008, 2012, 2014 Rocky Bernstein <rocky@gnu.org>
+    Copyright (C) 2008, 2012, 2014, 2025 Rocky Bernstein <rocky@gnu.org>
     Copyright (C) 2006 Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
 
     This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/** \file utf8.h 
+/** \file utf8.h
  *
  *  \brief UTF-8 support
  */
@@ -50,7 +50,7 @@ void cdio_charset_converter_destroy(cdio_charset_coverter_t*cnv);
  *  \param src_len Length of source string
  *  \param dst Returns destination string
  *  \param dst_len If non NULL, returns the length of the destination string
- *  \returns true if conversion was sucessful, false else.
+ *  \returns true if conversion was successful, false else.
  *
  *  The destination string must be freed by the caller with cdio_free().
  *  If you pass -1 for src_len, strlen() will be used.
@@ -65,7 +65,7 @@ bool cdio_charset_convert(cdio_charset_coverter_t*cnv,
  *  \param dst Returns destination string
  *  \param dst_len If non NULL, returns the length of the destination string
  *  \param dst_charset The characterset to convert to
- *  \returns true if conversion was sucessful, false else.
+ *  \returns true if conversion was successful, false else.
  *
  *  This is a convenience function, which creates a charset converter,
  *  converts one string and destroys the charset converter.
@@ -77,12 +77,12 @@ bool cdio_charset_convert(cdio_charset_coverter_t*cnv,
 bool cdio_charset_from_utf8(cdio_utf8_t * src, char ** dst,
                             int * dst_len, const char * dst_charset);
 
-/** \brief Convert a string from another charset to UTF-8 
+/** \brief Convert a string from another charset to UTF-8
  *  \param src Source string
  *  \param src_len Length of the source string
  *  \param dst Returns destination string (0 terminated)
  *  \param src_charset The characterset to convert from
- *  \returns true if conversion was sucessful, false else.
+1 *  \returns true if conversion was successful, false else.
  *
  *  This is a convenience function, which creates a charset converter,
  *  converts one string and destroys the charset converter.

@@ -1,6 +1,6 @@
 /* -*- c -*-
 
-    Copyright (C) 2005-2006, 2008-2013 Rocky Bernstein <rocky@gnu.org>
+    Copyright (C) 2005-2006, 2008-2013, 2025 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ extern "C" {
   /**
       The following are status codes for completion of a given cdio
       operation. By design 0 is successful completion and -1 is error
-      completion. This is compatable with ioctl so those routines that
+      completion. This is compatible with ioctl so those routines that
       call ioctl can just pass the value the get back (cast as this
       enum). Also, by using negative numbers for errors, the
       enumeration values below can be used in places where a positive
@@ -326,7 +326,7 @@ extern "C" {
 
      The filesystem part is mutually exclusive. For example either the
      filesystem is at most one of the High-Sierra, UFS, or HFS,
-     ISO9660, fileystems. Valid combinations of say HFS and ISO9660
+     ISO9660, filesystems. Valid combinations of say HFS and ISO9660
      are specified as a separate "filesystem".
 
      Capabilities on the other hand are not mutually exclusive. For
@@ -335,7 +335,7 @@ extern "C" {
 
      If "b_any" is set false then every capability listed in the
      analysis portion of capabilities (i.e. not the basic filesystem)
-     must be satisified. If no analysis capabilities are specified,
+     must be satisfied. If no analysis capabilities are specified,
      that's a match.
 
      If "b_any" is set true, then if any of the analysis capabilities
@@ -477,7 +477,7 @@ extern "C" {
   void cdio_destroy (CdIo_t *p_cdio);
 
   /**
-    Get a string decribing driver_id.
+    Get a string describing driver_id.
 
     @param driver_id the driver you want the description for
     @return a string of driver description
@@ -808,7 +808,7 @@ extern "C" {
      Set up CD-ROM for reading using the Microsoft Windows driver. The
      device_name is the some sort of device name.
 
-     NULL is returned on error or there is no Microsof Windows driver.
+     NULL is returned on error or there is no Microsoft Windows driver.
    */
   CdIo_t * cdio_open_am_win32 (const char *psz_source,
                                const char *psz_access_mode);
@@ -930,7 +930,7 @@ extern "C" {
                                         int i_drive_speed );
 
   /**
-     Get the value associatied with key.
+     Get the value associated with key.
 
      @param p_cdio the CD object queried @param key the key to
      retrieve @return the value associated with "key", \p NULL if \p

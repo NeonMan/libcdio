@@ -519,7 +519,7 @@ main(int argc, char *argv[])
       printf(STRONG "ISO-9660 Information\n" NORMAL);
       if (opts.print_iso9660 && opts.print_iso9660_short) {
           printf("Note: both -f and -l options given -- "
-                 "-l (long listing) takes precidence\n");
+                 "-l (long listing) takes precedence\n");
       }
       print_iso9660_fs(p_iso);
   } else if (opts.print_udf) {

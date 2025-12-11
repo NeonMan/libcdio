@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005, 2006, 2008, 2012 Rocky Bernstein <rocky@gnu.org>
+    Copyright (C) 2005, 2006, 2008, 2012, 2025 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ extern "C" {
 #define CDIO_CD_MIN_TRACK_NO  1 /**< Smallest CD track number */
 
   /*! track modes (Table 350)
-    reference: MMC-3 draft revsion - 10g
+    reference: MMC-3 draft revision - 10g
   */
   typedef enum {
     AUDIO,                      /**< 2352 byte block length */

@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*! 
+/*!
   Header for image drivers. In contrast to image_common.h which contains
   routines, this header like most C headers does not depend on anything
   defined before it is included.
@@ -32,14 +32,14 @@
 
 #ifdef HAVE_STDBOOL_H
 # include <stdbool.h>
-#endif 
+#endif
 
 #include <cdio/types.h>
 #include <cdio/cdtext.h>
 #include "cdio_private.h"
 #include <cdio/sector.h>
 
-/*! 
+/*!
   The universal format for information about a track for CD image readers
   It may be that some fields can be derived from other fields.
   Over time this structure may get cleaned up. Possibly this can be
@@ -70,12 +70,12 @@ typedef struct {
   bool           track_green;
 
   trackmode_t    mode;
-  uint16_t       datasize;      /**< How much is in the portion we return 
+  uint16_t       datasize;      /**< How much is in the portion we return
                                      back? */
-  uint16_t       datastart;     /**<  Offset from begining of frame 
+  uint16_t       datastart;     /**<  Offset from beginning of frame
                                       that data starts */
-  uint16_t       endsize;       /**< How much stuff at the end to skip over. 
-                                     This stuff may have error correction 
+  uint16_t       endsize;       /**< How much stuff at the end to skip over.
+                                     This stuff may have error correction
                                      (EDC, or ECC).*/
   uint16_t       blocksize;     /**< total block size = start + size + end */
 } track_info_t;

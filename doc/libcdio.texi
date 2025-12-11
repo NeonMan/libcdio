@@ -199,7 +199,7 @@ to use. Instead, each Operating System has its own interface.  For
 example Adaptec's ASPI or Microsoft's DeviceIoControl on Microsoft
 Windows, or IOKit for Apple's OS/X, or FreeBSD's CAM. I've been
 positively awed at how many different variations and differing levels
-of complexity, there are for doing basically the same thing. The ease 
+of complexity, there are for doing basically the same thing. The ease
 with which one can issue an MMC command from a program varies from easy to very
 difficult. And mastering the boilerplate code to issue an MMC command
 on one OS doesn't help much in figuring out how to do it on
@@ -1075,7 +1075,7 @@ down to the next track.  Other ripping programs detect track
 @term{pre-gap}s and record them in the popular cue file format among
 others.  Such ripping programs sometimes allow the user to determine
 whether track @term{pre-gap}s will be appended to the prior track or
-pre-pended to the track to which they "belong".  Note that if a
+prepended to the track to which they "belong".  Note that if a
 ripping program is ignorant of track @term{pre-gap}s, the track
 @term{pre-gap}s will be appended to the prior track, because that is
 where the disc's TOC puts them.  Thus, there are many different ways

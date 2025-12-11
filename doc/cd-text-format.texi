@@ -4,7 +4,7 @@
 @c \globaldefs=1
 @c \def\baselinefactor{1.5}
 @c \setleading{\textleading}
-@c @end tex 
+@c @end tex
 
 @setfilename cd-text-format.info
 @settitle CD Text Format
@@ -16,7 +16,7 @@ references to the original information sources are maintained.
 There is NO WARRANTY, to the extent permitted by law.
 
 Copyright @copyright{} 2011-2012 Thomas Schmitt @email{scdbackup@@gmx.net}.@*
-Copyright @copyright{} 2012 Rocky Bernstein
+Copyright @copyright{} 2012, 2025 Rocky Bernstein
 @end quotation
 @end copying
 
@@ -25,7 +25,7 @@ Copyright @copyright{} 2012 Rocky Bernstein
 
 @titlepage
 @title CD Text Format
-@author Thomas Schmitt for libburnia-project.org 
+@author Thomas Schmitt for libburnia-project.org
 @vskip 2in plus 1filll
 @insertcopying
 @end titlepage
@@ -82,9 +82,9 @@ The CD Text categories are identified by a single-byte code.
 @smallexample
   0x80: Title
   0x81: Performers
-  0x82: Songwriters 
+  0x82: Songwriters
   0x83: Composers
-  0x84: Arrangers 
+  0x84: Arrangers
   0x85: Message Area
   0x86: Disc Identification (in text and binary)
   0x87: Genre Identification (in text and binary)
@@ -107,14 +107,14 @@ disc, and cannot be attached to individual tracks.
 @item Pack Types @kbd{0x80}, @kbd{0x81}, @kbd{0x82}, @kbd{0x83}, @kbd{0x84}, @kbd{0x85}, and @kbd{0x8e} (Performers, Songwriters, Composers,
 Arrangers, and Message Area respectively) have to be attributed to
 each track if they are present for the whole disc.
-@item Pack Type @kbd{0x8f} (Block Size Information) describes the overall content of a block and in part of all other blocks. 
+@item Pack Type @kbd{0x8f} (Block Size Information) describes the overall content of a block and in part of all other blocks.
 @end itemize
 
 The total size of a block's attribute set is restricted by the fact
 that it has to be stored in at most 253 records with 12 bytes of
 payload. These records are called @emph{Text Packs} described in the
 next section.  Since information such as the Disc and Genre
-Identification is often the same across mutiple tracks, a compact way
+Identification is often the same across multiple tracks, a compact way
 to repeat identical information is provided.
 
 @node Pack Contents
@@ -190,7 +190,7 @@ If a text of a track (pack types @kbd{0x80} to @kbd{0x85} and
 represented by a TAB character (ASCII 9) for single byte texts, and
 two TAB characters for double byte texts.  This is desirable because
 there is a somewhat limited amount of space for CD Text --- 256 * 12
-bytes which may have to accomodate up to 99 tracks.
+bytes which may have to accommodate up to 99 tracks.
 
 The two binary bytes of pack type @kbd{0x87} are written to the first
 @kbd{0x87} pack of a block. They may or may not be repeated at the start
@@ -206,7 +206,7 @@ then two zero bytes terminate the text.  Of these, all except the last,
 @kbd{0x8e} or UPC/EAN code, are encoded according to their block's
 Character Code.  This could be either as ISO-8859-1 single byte
 characters, as 7-bit ASCII single byte characters, or as MS-JIS double
-byte characters.  
+byte characters.
 
 Pack type @kbd{0x8e} is documented by Sony as:
 @quotation
@@ -232,7 +232,7 @@ So it is not really binary but might be non-printable, and should contain only
 bytes with bit 7 set to zero.
 
 Pack type @kbd{0x87} (Genre Identification) contains 2 binary bytes
-followed by NUL-byte terminated text.  
+followed by NUL-byte terminated text.
 
 You can either specify a genre code or the supplementary genre
 information (without the code) or both. Neither is mandatory.
@@ -379,7 +379,7 @@ block.  So there is one group of three @kbd{0x8f} packs per block.
 Nevertheless each @kbd{0x8f} group indicates the highest sequence
 number and the language code of all blocks.
 
-The payload bytes of three @kbd{0x8f} packs form a 36-byte record. 
+The payload bytes of three @kbd{0x8f} packs form a 36-byte record.
 The track number bytes of the three packs have the values 0, 1, 2.
 
 For the format of this pack type see @ref{table:block-pack}.
@@ -412,7 +412,7 @@ referred to in bytes 28-38 of @ref{table:block-pack}.
 0x00: Unknown                  0x50: Sranan Tongo
 0x01: Albanian                 0x51: Somali
 0x02: Breton                   0x52: Sinhalese
-0x03: Catalan                  0x53: Shona 
+0x03: Catalan                  0x53: Shona
 0x04: Croatian                 0x54: Serbo-croat
 0x05: Welsh                    0x55: Ruthenian
 0x06: Czech                    0x56: Russian
@@ -428,7 +428,7 @@ referred to in bytes 28-38 of @ref{table:block-pack}.
 0x10: Frisian                  0x60: Moldavian
 0x11: Irish                    0x61: Malaysian
 0x12: Gaelic                   0x62: Malagasay
-0x13: Galician                 0x63: Macedonian     
+0x13: Galician                 0x63: Macedonian
 0x14: Iceland                  0x64: Laotian
 0x15: Italian                  0x65: Korean
 0x16: Lappish                  0x66: Khmer
@@ -443,27 +443,27 @@ referred to in bytes 28-38 of @ref{table:block-pack}.
 0x1f: Occitan                  0x6f: Gujurati
 0x20: Polish                   0x70: Greek
 0x21: Portuguese               0x71: Georgian
-0x22: Romanian                 0x72: Fulani 
-0x23: Romanish                 0x73: Dari    
-0x24: Serbian                  0x74: Churash   
-0x25: Slovak                   0x75: Chinese        
-0x26: Slovenian                0x76: Burmese          
-0x27: Finnish                  0x77: Bulgarian      
-0x28: Swedish                  0x78: Bengali            
-0x29: Turkish                  0x79: Bielorussian             
-0x2a: Flemish                  0x7a: Bambora                 
-0x2b: Wallon                   0x7b: Azerbaijani                 
-0x45: Zulu                     0x7c: Assamese                    
-0x46: Vietnamese               0x7d: Armenian                    
-0x47: Uzbek                    0x7e: Arabic                    
-0x48: Urdu                     0x7f: Amharic              
-0x49: Ukrainian                                 
-0x4a: Thai                                   
-0x4b: Telugu                                        
-0x4c: Tatar                                    
-0x4d: Tamil                                         
-0x4e: Tadzhik                                          
-0x4f: Swahili                          
+0x22: Romanian                 0x72: Fulani
+0x23: Romanish                 0x73: Dari
+0x24: Serbian                  0x74: Churash
+0x25: Slovak                   0x75: Chinese
+0x26: Slovenian                0x76: Burmese
+0x27: Finnish                  0x77: Bulgarian
+0x28: Swedish                  0x78: Bengali
+0x29: Turkish                  0x79: Bielorussian
+0x2a: Flemish                  0x7a: Bambora
+0x2b: Wallon                   0x7b: Azerbaijani
+0x45: Zulu                     0x7c: Assamese
+0x46: Vietnamese               0x7d: Armenian
+0x47: Uzbek                    0x7e: Arabic
+0x48: Urdu                     0x7f: Amharic
+0x49: Ukrainian
+0x4a: Thai
+0x4b: Telugu
+0x4c: Tatar
+0x4d: Tamil
+0x4e: Tadzhik
+0x4f: Swahili
 @end smallexample
 @caption{Language Codes}
 @end float
@@ -616,7 +616,7 @@ Track 03 Artist     =  Mia Kitten
 Track 03 Songwriter =  Mia Kitten
 Track 03 Composer   =  Mia Kitten
 Track 03 Arranger   =  Mia Kitten
-Track 03 Message    =  
+Track 03 Message    =
 ISRC 03             =  XYBLG1100006
 @end smallexample
 
@@ -661,9 +661,9 @@ TITLE "Joyful Nights"
     INDEX 01 13:20:33
 @end smallexample
 
-@node Acknowlegement
-@unnumbered Acknowlegement
-Thanks to Leon Merten Lohse. 
+@node Acknowledgement
+@unnumbered Acknowledgement
+Thanks to Leon Merten Lohse.
 
 @node List of Tables
 @unnumbered List of Tables
@@ -673,18 +673,18 @@ Thanks to Leon Merten Lohse.
 @unnumbered References
 
 @enumerate
-@item Correspondence with Leon Merten Lohse 
+@item Correspondence with Leon Merten Lohse
 in @email{libcdio-devel@@gnu.org}, December 2011. @* Mail archives at
 @url{http://lists.gnu.org/archive/html/libcdio-devel/2011-12/index.html}
 
-@item @emph{SCSI Multimedia Commands --- 3 (MMC-3)},@anchor{mmc3r10g.pdf} Revision 10g, November 12. 2011.@* 
-Google for @file{mmc3r10g.pdf} 
+@item @emph{SCSI Multimedia Commands --- 3 (MMC-3)},@anchor{mmc3r10g.pdf} Revision 10g, November 12. 2011.@*
+Google for @file{mmc3r10g.pdf}
 See especially Section 5.23 (READ TOC/PMA/ATIP Command),
 see Table 237 (TOC Track Descriptor Format, Q
 Sub-channel), Annex J (CD Text format in the Lead-in Area) and
 Sections 4.2.5.3 (Mode-5 Q).
 
-@item ``Materials describing the procedure of the procedure of authoring and mastering for creating CD TEXT disks on equipments develooped by Sony HAV Company'',@anchor{cdtext.zip}@*
+@item ``Materials describing the procedure of the procedure of authoring and mastering for creating CD TEXT disks on equipment developed by Sony HAV Company'',@anchor{cdtext.zip}@*
 @file{http://www.sonydadc.com/file/cdtext.zip} which was previously found on Sony's web site circa 2007. You may be able to get this from the ``Wayback Archive'', such as @url{http://web.archive.org/web/20070204035327/http://www.sonydadc.com/file/cdtext.zip}@*
 
 @item Cue-Sheet Syntax
@@ -696,7 +696,7 @@ See @file{doc} directory in that project.
 @item @emph{libcdio} source code @url{http://www.gnu.org/s/libcdio}
 
 @item @emph{cdrecord} source code @url{ftp://ftp.berlios.de/pub/cdrecord/alpha}
-@item @emph{cdrecord} manual page. 
+@item @emph{cdrecord} manual page.
 @url{http://cdrecord.berlios.de/private/man/cdrecord/cdrecord.1.html}
 
 @item @emph{Specification of the EBU Subtitling data exchange format},@*
@@ -705,7 +705,7 @@ Appendix 3. February 1991
 Contains CD Text Language codes shown in @ref{table:languages}.
 
 @item Genre codes
-@url{http://helpdesk.audiofile-engineering.com/index.php?pg=kb.page&id=123} 
+@url{http://helpdesk.audiofile-engineering.com/index.php?pg=kb.page&id=123}
 @end enumerate
 
 @bye

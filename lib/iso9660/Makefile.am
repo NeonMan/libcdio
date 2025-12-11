@@ -86,7 +86,7 @@ AM_CPPFLAGS = $(LIBCDIO_CFLAGS)
 #
 # Now, for some reason, you decide to change the cdio_open function.
 # That's your right, but you have to bump the CURRENT version and (if I
-# understand it correctly, athough this is not that clear in libtool's
+# understand it correctly, although this is not that clear in libtool's
 # documentation) set the AGE to 0. Anyway, this bumps the SONAME, which is
 # sane since the interface changes incompatibly.
 
@@ -119,8 +119,8 @@ AM_CPPFLAGS = $(LIBCDIO_CFLAGS)
 # work...
 
 
-# The below is a impliments symbol versioning.  First of all, I
-# compute MAJOR as CURENT - AGE; that is what is used within libtool
+# The below is a implements symbol versioning.  First of all, I
+# compute MAJOR as CURRENT - AGE; that is what is used within libtool
 # (at least on GNU/Linux systems) for the number in the SONAME.  The
 # nm command gives the list of symbols known in each of the object
 # files that will be part of the shared library. And the sed command

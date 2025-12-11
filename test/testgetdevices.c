@@ -196,7 +196,7 @@ main(int argc, const char *argv[])
 	invalid_images += 1;
       }
     }
-    printf("invaid images is %d\n", invalid_images);
+    printf("invalid images is %d\n", invalid_images);
     ret = invalid_images != 2;
   }
 
