@@ -9,7 +9,7 @@ Version 2.2.1.rc1
 2025-12-11
 
 * Support ISRC in Image drivers (oldrich strazovsky)
-* Parser More aggressive on checking CD Audio
+* Parser is more aggressive in checking CD Audio
 * Correct ISO 9660 timezone offset signs, and add extreme timezone tests. See https://github.com/libcdio/libcdio/pull/40. (UltraFuzzy)
 * Fix a longstanding bug in detecting USB drives on MacOS. (UltraFuzzy)
 * Add function `cdio_get_device_fd()` to retrieve a device file descriptor for when users need it in their own low-level code. In particular, this is needed for pregap detection on macOS. See https://github.com/libcdio/libcdio/ull/37. (UltraFuzzy)
@@ -21,7 +21,7 @@ Version 2.2.1.rc1
 * Adds function `udf_setpos()` to allow arbitrary reads of UDF files. Used by [wimlib](https://github.com/ebiggers/wimlib) (Pete Batard)
 * Fix autotools for LFS support on 32-bit systems. See https://github.com/libcdio/libcdio/pull/29 (t-w)
 * Get `NULL` definition from `stddef.h` to assist C++ compilers. See https://github.com/libcdio/libcdio/pull/25 (Thomas Zander)
-* Fixes for MinGW tests See https://github.com/libcdio/libcdio/pull/23. (Pete Batard)
+* Fixes for MinGW tests. See https://github.com/libcdio/libcdio/pull/23. (Pete Batard)
 * Fix `get_mcn()` on GNU/Linux. See https://github.com/libcdio/libcdio/pull/22 (olda-rosice)
 * Fix `iso-info -U -i FILE`. See https://github.com/libcdio/libcdio/issues/17 (maronz)
 
