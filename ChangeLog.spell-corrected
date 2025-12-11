@@ -14436,7 +14436,7 @@
 	include/cdio/sector.h, include/cdio/types.h, lib/FreeBSD/freebsd.h,
 	lib/MSWindows/aspi32.c, lib/_cdio_linux.c, lib/_cdio_osx.c,
 	lib/image/bincue.c, lib/image/cdrdao.c, lib/image/nrg.c: Add type
-	for holding MCN and ISRC. Add type for session Replace magic constant 100 with CDIO_MAX_TRACK+1 where appropriate.  _cdio_osx: save session number and presumably some tighter coding.
+	for holding MCN and ISRC. Add type for session Replace magic constant 100 with CDIO_CD_MAX_TRACKS+1 where appropriate.  _cdio_osx: save session number and presumably some tighter coding.
 	nrg.c: make sure we add zero byte to end of MCN.
 
 2004-06-26  rocky <rocky>

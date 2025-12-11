@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004-2008, 2011-2012, 2014, 2017
+  Copyright (C) 2004-2008, 2011-2012, 2014, 2017, 2025
   Rocky Bernstein <rocky@gnu.org>
     toc reading routine adapted from cuetools
   Copyright (C) 2003 Svend Sanjay Sorensen <ssorensen@fastmail.fm>
@@ -303,7 +303,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
   FILE        *fp;
   char         psz_line[MAXLINE];   /* text of current line read in file fp. */
   unsigned int i_line=0;            /* line number in file of psz_line. */
-  int          i = -1;              /* Position in tocent. Same as
+  int          i_track = -1;        /* Position in tocent. Same as
 				       cd->gen.i_tracks - 1 */
   char *psz_keyword, *psz_field, *psz_cue_name_dup;
   cdio_log_level_t log_level = (cd) ? CDIO_LOG_WARN : CDIO_LOG_INFO ;
@@ -344,7 +344,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
     if ((psz_keyword = strtok (psz_line, " \t\n\r"))) {
       /* CATALOG "ddddddddddddd" */
       if (0 == strcmp ("CATALOG", psz_keyword)) {
-	if (-1 == i) {
+	if (-1 == i_track) {
 	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
 	    if (13 != strlen(psz_field)) {
 	      cdio_log(log_level,
@@ -385,14 +385,14 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* CD_DA | CD_ROM | CD_ROM_XA */
       } else if (0 == strcmp ("CD_DA", psz_keyword)) {
-	if (-1 == i) {
+	if (-1 == i_track) {
 	  if (NULL != cd)
 	    cd->disc_mode = CDIO_DISC_MODE_CD_DA;
 	} else {
 	  goto not_in_global_section;
 	}
       } else if (0 == strcmp ("CD_ROM", psz_keyword)) {
-	if (-1 == i) {
+	if (-1 == i_track) {
 	  if (NULL != cd)
 	    cd->disc_mode = CDIO_DISC_MODE_CD_DATA;
 	} else {
@@ -400,7 +400,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	}
 
       } else if (0 == strcmp ("CD_ROM_XA", psz_keyword)) {
-	if (-1 == i) {
+	if (-1 == i_track) {
 	  if (NULL != cd)
 	    cd->disc_mode = CDIO_DISC_MODE_CD_XA;
 	} else {
@@ -409,15 +409,23 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* TRACK <track-mode> [<sub-channel-mode>] */
       } else if (0 == strcmp ("TRACK", psz_keyword)) {
-	i++;
+        if (i_track > CDIO_CD_MAX_TRACKS) {
+	  cdio_log(log_level,
+		   "%s line %d:",
+		   psz_cue_name, i_line);
+	  cdio_log(log_level, "Maximum number of tracks %d exceeded.", CDIO_CD_MAX_TRACKS);
+	  goto err_exit;
+
+	}
+	i_track++;
 	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	  if (0 == strcmp ("AUDIO", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_AUDIO;
-	      cd->tocent[i].blocksize    = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datasize     = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datastart    = 0;
-	      cd->tocent[i].endsize      = 0;
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_AUDIO;
+	      cd->tocent[i_track].blocksize    = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datasize     = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datastart    = 0;
+	      cd->tocent[i_track].endsize      = 0;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
 		cd->disc_mode = CDIO_DISC_MODE_CD_DA;
@@ -438,12 +446,12 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE1", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_DATA;
-	      cd->tocent[i].blocksize    = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datastart    = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_DATA;
+	      cd->tocent[i_track].blocksize    = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datastart    = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_HEADER_SIZE;
-	      cd->tocent[i].datasize     = CDIO_CD_FRAMESIZE;
-	      cd->tocent[i].endsize      = CDIO_CD_EDC_SIZE
+	      cd->tocent[i_track].datasize     = CDIO_CD_FRAMESIZE;
+	      cd->tocent[i_track].endsize      = CDIO_CD_EDC_SIZE
 		+ CDIO_CD_M1F1_ZERO_SIZE + CDIO_CD_ECC_SIZE;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
@@ -464,12 +472,12 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE1_RAW", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_DATA;
-	      cd->tocent[i].blocksize = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datastart = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track+1].track_format = TRACK_FORMAT_DATA;
+	      cd->tocent[i_track].blocksize = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datastart = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_HEADER_SIZE;
-	      cd->tocent[i].datasize  = CDIO_CD_FRAMESIZE;
-	      cd->tocent[i].endsize   = CDIO_CD_EDC_SIZE
+	      cd->tocent[i_track].datasize  = CDIO_CD_FRAMESIZE;
+	      cd->tocent[i_track].endsize   = CDIO_CD_EDC_SIZE
 		+ CDIO_CD_M1F1_ZERO_SIZE + CDIO_CD_ECC_SIZE;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
@@ -490,11 +498,11 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE2", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_XA;
-	      cd->tocent[i].datastart = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_XA;
+	      cd->tocent[i_track].datastart = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_HEADER_SIZE;
-	      cd->tocent[i].datasize = M2RAW_SECTOR_SIZE;
-	      cd->tocent[i].endsize   = 0;
+	      cd->tocent[i_track].datasize = M2RAW_SECTOR_SIZE;
+	      cd->tocent[i_track].endsize   = 0;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
 		cd->disc_mode = CDIO_DISC_MODE_CD_XA;
@@ -514,11 +522,11 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE2_FORM1", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_XA;
-	      cd->tocent[i].datastart = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track+1].track_format = TRACK_FORMAT_XA;
+	      cd->tocent[i_track].datastart = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_HEADER_SIZE;
-	      cd->tocent[i].datasize  = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].endsize   = 0;
+	      cd->tocent[i_track].datasize  = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].endsize   = 0;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
 		cd->disc_mode = CDIO_DISC_MODE_CD_XA;
@@ -538,11 +546,11 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE2_FORM2", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_XA;
-	      cd->tocent[i].datastart    = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_XA;
+	      cd->tocent[i_track].datastart    = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_HEADER_SIZE + CDIO_CD_SUBHEADER_SIZE;
-	      cd->tocent[i].datasize     = CDIO_CD_FRAMESIZE;
-	      cd->tocent[i].endsize      = CDIO_CD_SYNC_SIZE
+	      cd->tocent[i_track].datasize     = CDIO_CD_FRAMESIZE;
+	      cd->tocent[i_track].endsize      = CDIO_CD_SYNC_SIZE
 		+ CDIO_CD_ECC_SIZE;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
@@ -563,13 +571,13 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE2_FORM_MIX", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_XA;
-	      cd->tocent[i].datasize     = M2RAW_SECTOR_SIZE;
-	      cd->tocent[i].blocksize    = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datastart    = CDIO_CD_SYNC_SIZE +
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_XA;
+	      cd->tocent[i_track].datasize     = M2RAW_SECTOR_SIZE;
+	      cd->tocent[i_track].blocksize    = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datastart    = CDIO_CD_SYNC_SIZE +
 		CDIO_CD_HEADER_SIZE + CDIO_CD_SUBHEADER_SIZE;
-	      cd->tocent[i].track_green  = true;
-	      cd->tocent[i].endsize      = 0;
+	      cd->tocent[i_track].track_green  = true;
+	      cd->tocent[i_track].endsize      = 0;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
 		cd->disc_mode = CDIO_DISC_MODE_CD_XA;
@@ -589,13 +597,13 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  } else if (0 == strcmp ("MODE2_RAW", psz_field)) {
 	    if (NULL != cd) {
-	      cd->tocent[i].track_format = TRACK_FORMAT_XA;
-	      cd->tocent[i].blocksize    = CDIO_CD_FRAMESIZE_RAW;
-	      cd->tocent[i].datastart    = CDIO_CD_SYNC_SIZE +
+	      cd->tocent[i_track].track_format = TRACK_FORMAT_XA;
+	      cd->tocent[i_track].blocksize    = CDIO_CD_FRAMESIZE_RAW;
+	      cd->tocent[i_track].datastart    = CDIO_CD_SYNC_SIZE +
 		CDIO_CD_HEADER_SIZE + CDIO_CD_SUBHEADER_SIZE;
-	      cd->tocent[i].datasize     = CDIO_CD_FRAMESIZE;
-	      cd->tocent[i].track_green  = true;
-	      cd->tocent[i].endsize      = 0;
+	      cd->tocent[i_track].datasize     = CDIO_CD_FRAMESIZE;
+	      cd->tocent[i_track].track_green  = true;
+	      cd->tocent[i_track].endsize      = 0;
 	      switch(cd->disc_mode) {
 	      case CDIO_DISC_MODE_NO_INFO:
 		cd->disc_mode = CDIO_DISC_MODE_CD_XA;
@@ -639,11 +647,11 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	  if (0 == strcmp ("COPY", psz_field)) {
 	    if (NULL != cd)
-	      cd->tocent[i].flags &= ~CDIO_TRACK_FLAG_COPY_PERMITTED;
+	      cd->tocent[i_track].flags &= ~CDIO_TRACK_FLAG_COPY_PERMITTED;
 
 	  } else if (0 == strcmp ("PRE_EMPHASIS", psz_field))
 	    if (NULL != cd) {
-	      cd->tocent[i].flags &= ~CDIO_TRACK_FLAG_PRE_EMPHASIS;
+	      cd->tocent[i_track].flags &= ~CDIO_TRACK_FLAG_PRE_EMPHASIS;
 	    }
 	} else {
 	  goto format_error;
@@ -652,25 +660,25 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	  goto format_error;
 	}
       } else if (0 == strcmp ("COPY", psz_keyword)) {
-	if (NULL != cd && i >= 0)
-	  cd->tocent[i].flags |= CDIO_TRACK_FLAG_COPY_PERMITTED;
+	if (NULL != cd && i_track >= 0)
+	  cd->tocent[i_track].flags |= CDIO_TRACK_FLAG_COPY_PERMITTED;
       } else if (0 == strcmp ("PRE_EMPHASIS", psz_keyword)) {
-	if (NULL != cd && i >= 0)
-	  cd->tocent[i].flags |= CDIO_TRACK_FLAG_PRE_EMPHASIS;
+	if (NULL != cd && i_track >= 0)
+	  cd->tocent[i_track].flags |= CDIO_TRACK_FLAG_PRE_EMPHASIS;
 	/* TWO_CHANNEL_AUDIO */
       } else if (0 == strcmp ("TWO_CHANNEL_AUDIO", psz_keyword)) {
-	if (NULL != cd && i >= 0)
-	  cd->tocent[i].flags &= ~CDIO_TRACK_FLAG_FOUR_CHANNEL_AUDIO;
+	if (NULL != cd && i_track >= 0)
+	  cd->tocent[i_track].flags &= ~CDIO_TRACK_FLAG_FOUR_CHANNEL_AUDIO;
 	/* FOUR_CHANNEL_AUDIO */
       } else if (0 == strcmp ("FOUR_CHANNEL_AUDIO", psz_keyword)) {
-	if (NULL != cd && i >= 0)
-	  cd->tocent[i].flags |= CDIO_TRACK_FLAG_FOUR_CHANNEL_AUDIO;
+	if (NULL != cd && i_track >= 0)
+	  cd->tocent[i_track].flags |= CDIO_TRACK_FLAG_FOUR_CHANNEL_AUDIO;
 
 	/* ISRC "CCOOOYYSSSSS" */
       } else if (0 == strcmp ("ISRC", psz_keyword)) {
 	if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
 	  if (NULL != cd)
-	    cd->tocent[i].isrc = strdup(psz_field);
+	    cd->tocent[i_track].isrc = strdup(psz_field);
 	} else {
 	  goto format_error;
 	}
@@ -679,7 +687,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
       } else if (0 == strcmp ("SILENCE", psz_keyword)) {
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	      if (NULL != cd)
-		  cd->tocent[i].silence = cdio_mmssff_to_lba (psz_field);
+		  cd->tocent[i_track].silence = cdio_mmssff_to_lba (psz_field);
 	  } else {
 	      goto format_error;
 	  }
@@ -693,17 +701,17 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	/* [FILE|AUDIOFILE] "<filename>" <start-msf> [<length-msf>] */
       } else if (0 == strcmp ("FILE", psz_keyword)
 		 || 0 == strcmp ("AUDIOFILE", psz_keyword)) {
-	if (0 <= i) {
+	if (0 <= i_track) {
 	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
 	    /* Handle "<filename>" */
 	    if (cd) {
 	      char *psz_dirname = cdio_dirname(psz_cue_name);
 	      char *psz_filename = cdio_abspath(psz_dirname, psz_field);
-	      cd->tocent[i].filename = strdup (psz_filename);
+	      cd->tocent[i_track].filename = strdup (psz_filename);
 	      free(psz_filename);
 	      free(psz_dirname);
 	      /* To do: do something about reusing existing files. */
-	      if (!(cd->tocent[i].data_source = cdio_stdio_new (psz_field))) {
+	      if (!(cd->tocent[i_track].data_source = cdio_stdio_new (psz_field))) {
 		cdio_log (log_level,
 			  "%s line %d: can't open file `%s' for reading",
 			   psz_cue_name, i_line, psz_field);
@@ -733,8 +741,8 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 
 	    if (NULL != cd) {
-	      cd->tocent[i].start_lba = i_start_lba;
-	      cdio_lba_to_msf(i_start_lba, &(cd->tocent[i].start_msf));
+	      cd->tocent[i_track].start_lba = i_start_lba;
+	      cdio_lba_to_msf(i_start_lba, &(cd->tocent[i_track].start_msf));
 	    }
 	  }
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
@@ -746,18 +754,18 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	      goto err_exit;
 	    }
 	    if (cd) {
-	      off_t i_size = cdio_stream_stat(cd->tocent[i].data_source);
+	      off_t i_size = cdio_stream_stat(cd->tocent[i_track].data_source);
 	      if (lba) {
-		if ( (lba * cd->tocent[i].datasize) > i_size) {
+		if ( (lba * cd->tocent[i_track].datasize) > i_size) {
 		  cdio_log(log_level,
 			   "%s line %d: MSF length %s exceeds end of file",
 			   psz_cue_name, i_line, psz_field);
 		  goto err_exit;
 		}
 	      } else {
-		lba = (lba_t) (i_size / cd->tocent[i].blocksize);
+		lba = (lba_t) (i_size / cd->tocent[i_track].blocksize);
 	      }
-	      cd->tocent[i].sec_count = lba;
+	      cd->tocent[i_track].sec_count = lba;
 	    }
 	  }
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
@@ -769,15 +777,15 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* DATAFILE "<filename>" #byte-offset <start-msf> */
       } else if (0 == strcmp ("DATAFILE", psz_keyword)) {
-	if (0 <= i) {
+	if (0 <= i_track) {
 	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
 	    /* Handle <filename> */
 	    char *psz_dirname = cdio_dirname(psz_cue_name);
 	    char *psz_filename = cdio_abspath(psz_dirname, psz_field);
 	    if (cd) {
-	      cd->tocent[i].filename = strdup(psz_filename);
+	      cd->tocent[i_track].filename = strdup(psz_filename);
 	      /* To do: do something about reusing existing files. */
-	      if (!(cd->tocent[i].data_source = cdio_stdio_new (psz_field))) {
+	      if (!(cd->tocent[i_track].data_source = cdio_stdio_new (psz_field))) {
 		cdio_log (log_level,
 			  "%s line %d: can't open file `%s' for reading",
 			  psz_cue_name, i_line, psz_field);
@@ -817,7 +825,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 		goto err_exit;
 	      } else {
 		if (NULL != cd) {
-		  cd->tocent[i].offset = offset;
+		  cd->tocent[i_track].offset = offset;
 		}
 	      }
 	      psz_field = strtok (NULL, " \t\n\r");
@@ -832,28 +840,28 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	      goto err_exit;
 	    }
 	    if (cd) {
-	      cd->tocent[i].start_lba = lba;
-	      cdio_lba_to_msf(cd->tocent[i].start_lba,
-			      &(cd->tocent[i].start_msf));
+	      cd->tocent[i_track].start_lba = lba;
+	      cdio_lba_to_msf(cd->tocent[i_track].start_lba,
+			      &(cd->tocent[i_track].start_msf));
 	    }
 	  } else {
 	    /* No start-msf. */
 	    if (cd) {
-	      if (i) {
-		uint16_t i_blocksize = cd->tocent[i-1].blocksize;
+	      if (i_track) {
+		uint16_t i_blocksize = cd->tocent[i_track-1].blocksize;
 		off_t i_size      =
-		  cdio_stream_stat(cd->tocent[i-1].data_source);
+		  cdio_stream_stat(cd->tocent[i_track-1].data_source);
 
-		  check_track_is_blocksize_multiple(cd->tocent[i-1].filename,
-						    i-1, i_size, i_blocksize);
+		  check_track_is_blocksize_multiple(cd->tocent[i_track-1].filename,
+						    i_track-1, i_size, i_blocksize);
 		/* Append size of previous datafile. */
-		cd->tocent[i].start_lba = (lba_t) (cd->tocent[i-1].start_lba +
+		cd->tocent[i_track].start_lba = (lba_t) (cd->tocent[i_track-1].start_lba +
 		  (i_size / i_blocksize));
 	      }
-	      cd->tocent[i].offset = 0;
-	      cd->tocent[i].start_lba += CDIO_PREGAP_SECTORS;
-	      cdio_lba_to_msf(cd->tocent[i].start_lba,
-			      &(cd->tocent[i].start_msf));
+	      cd->tocent[i_track].offset = 0;
+	      cd->tocent[i_track].start_lba += CDIO_PREGAP_SECTORS;
+	      cdio_lba_to_msf(cd->tocent[i_track].start_lba,
+			      &(cd->tocent[i_track].start_msf));
 	    }
 	  }
 
@@ -867,15 +875,15 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* START MM:SS:FF */
       } else if (0 == strcmp ("START", psz_keyword)) {
-	if (0 <= i) {
+	if (0 <= i_track) {
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	    /* todo: line is too long! */
 	    if (NULL != cd) {
-	      cd->tocent[i].pregap = cd->tocent[i].start_lba;
-	      cd->tocent[i].start_lba += cdio_mmssff_to_lba (psz_field);
-	      cdio_lba_to_msf(cd->tocent[i].start_lba,
-			      &(cd->tocent[i].start_msf));
-	      cd->tocent[i].sec_count -= cdio_mmssff_to_lba (psz_field);
+	      cd->tocent[i_track].pregap = cd->tocent[i_track].start_lba;
+	      cd->tocent[i_track].start_lba += cdio_mmssff_to_lba (psz_field);
+	      cdio_lba_to_msf(cd->tocent[i_track].start_lba,
+			      &(cd->tocent[i_track].start_msf));
+	      cd->tocent[i_track].sec_count -= cdio_mmssff_to_lba (psz_field);
 	    }
 	  }
 
@@ -888,10 +896,10 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* PREGAP MM:SS:FF */
       } else if (0 == strcmp ("PREGAP", psz_keyword)) {
-	if (0 <= i) {
+	if (0 <= i_track) {
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	    if (NULL != cd)
-	      cd->tocent[i].pregap = cdio_mmssff_to_lba (psz_field);
+	      cd->tocent[i_track].pregap = cdio_mmssff_to_lba (psz_field);
 	  } else {
 	    goto format_error;
 	  }
@@ -904,16 +912,16 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	  /* INDEX MM:SS:FF */
       } else if (0 == strcmp ("INDEX", psz_keyword)) {
-	if (0 <= i) {
+	if (0 <= i_track) {
 	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
 	    if (NULL != cd) {
 #if 0
-	      if (1 == cd->tocent[i].nindex) {
-		cd->tocent[i].indexes[1] = cd->tocent[i].indexes[0];
-		cd->tocent[i].nindex++;
+	      if (1 == cd->tocent[i_track+1].nindex) {
+		cd->tocent[i_track+1].indexes[1] = cd->tocent[i_track+1].indexes[0];
+		cd->tocent[i_track+1].nindex++;
 	      }
-	      cd->tocent[i].indexes[cd->tocent[i].nindex++] =
-		cdio_mmssff_to_lba (psz_field) + cd->tocent[i].indexes[0];
+	      cd->tocent[i_track+1].indexes[cd->tocent[i_track+1].nindex++] =
+		cdio_mmssff_to_lba (psz_field) + cd->tocent[i_track+1].indexes[0];
 #else
 	      ;
 
@@ -967,7 +975,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
             cd->gen.cdtext->block[cd->gen.cdtext->block_i].language_code = CDTEXT_LANGUAGE_ENGLISH;
           }
           cdtext_set (cd->gen.cdtext, cdtext_key, (uint8_t*) strtok (NULL, "\"\t\n\r"),
-              (-1 == i ? 0 : cd->gen.i_first_track + i),
+              (-1 == i_track ? 0 : cd->gen.i_first_track + i_track),
               "ISO-8859-1");
         }
 
@@ -981,7 +989,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
   }
 
   if (NULL != cd) {
-    cd->gen.i_tracks = i+1;
+    cd->gen.i_tracks = i_track+1;
     cd->gen.toc_init = true;
   }
 

@@ -49,7 +49,7 @@
 #endif
 
 #define NUM_GOOD_CUES 3
-#define NUM_BAD_CUES 7
+#define NUM_BAD_CUES 8
 int
 main(int argc, const char *argv[])
 {
@@ -67,6 +67,7 @@ main(int argc, const char *argv[])
     "bad-msf-1.cue",
     "bad-msf-2.cue",
     "bad-msf-3.cue",
+    "bad-tracknum-exceeded.cue",
   };
   int ret=0;
   unsigned int i;

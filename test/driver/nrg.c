@@ -1,6 +1,6 @@
 /* -*- C -*-
-  Copyright (C) 2008, 2010, 2011, 2012 Rocky Bernstein <rocky@gnu.org>
-  
+  Copyright (C) 2008, 2010, 2011, 2012, 2025 Rocky Bernstein <rocky@gnu.org>
+
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -15,7 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* 
+/*
    Regression test for Nero image driver: lib/driver/image/nrg.c.
 */
 #if defined(HAVE_CONFIG_H)
@@ -53,7 +53,7 @@ main(int argc, const char *argv[])
   char psz_nrgfile[500];
   CdIo_t *p_cdio;
   const char *cdtext_check[NUM_FIELDS] = {
-    "Richard Stallman", 
+    "Richard Stallman",
     "Join us now we have the software"
   };
   const int cdtext_fields[NUM_FIELDS] = {CDTEXT_FIELD_PERFORMER, CDTEXT_FIELD_TITLE};
@@ -63,8 +63,8 @@ main(int argc, const char *argv[])
 	     "%s/%s", DATA_DIR, cue_file[i]);
   */
   if (!cdio_have_driver(DRIVER_NRG)) return(77);
-  
-  snprintf(psz_nrgfile, sizeof(psz_nrgfile)-1, "%s/%s",  
+
+  snprintf(psz_nrgfile, sizeof(psz_nrgfile)-1, "%s/%s",
 	   DATA_DIR, "p1.nrg");
 
   p_cdio = cdio_open_nrg(psz_nrgfile);
@@ -82,7 +82,7 @@ main(int argc, const char *argv[])
 	return(2);
       if (0 != strncmp(psz_field, cdtext_check[i], strlen(cdtext_check[i]))) {
 	printf("CD-Text compare mismatch.\n");
-	printf("expected:\n\t'%s'\ngot:\n\t'%s'\n", 
+	printf("expected:\n\t'%s'\ngot:\n\t'%s'\n",
 	       cdtext_check[i], psz_field);
 	return(3);
       }

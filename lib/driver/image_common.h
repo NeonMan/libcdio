@@ -200,4 +200,12 @@ read_data_sectors_image ( void *p_user_data, void *p_buf,
 driver_return_code_t
 _set_arg_image (void *user_data, const char key[], const char value[]);
 
+#ifndef CDIO_CD_MAX_TRACKS
+/* This should be the same as the number in cdio/track.h.
+   For include dependency hell reasons, we copy it here instead of #include'ing cdio/track.h
+*/
+
+#define CDIO_CD_MAX_TRACKS 99
+#endif
+
 #endif /* CDIO_DRIVER_IMAGE_COMMON_H_ */

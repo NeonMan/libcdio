@@ -15,6 +15,8 @@ check_DATA = \
 	bad-msf-2.toc  \
 	bad-msf-3.cue  \
 	bad-msf-3.toc  \
+	bad-tracknum-exceeded.cue \
+	bad-tracknum-exceeded.toc \
 	cdda.bin       \
 	cdda.cue       \
 	cdda_4_5.bin   \

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2006, 2008-2009, 2011-2012, 2014, 2017
+  Copyright (C) 2003-2006, 2008-2009, 2011-2012, 2014, 2017, 2025
   Rocky Bernstein <rocky@gnu.org>
   Copyright (C) 2001, 2003 Herbert Valerio Riedel <hvr@gnu.org>
 
@@ -439,6 +439,13 @@ parse_nrg (_img_private_t *p_env, const char *psz_nrg_name,
 	  }
 	  if (0 == disc_mode) {
 	    for (i=0; i<p_env->gen.i_tracks; i++) {
+
+	      if (i > CDIO_CD_MAX_TRACKS) {
+		cdio_warn ("Track number %d is too large; maximum track number is %d.",
+			   i, CDIO_CD_MAX_TRACKS);
+		return false;
+	      }
+
 	      p_env->tocent[i].track_format= track_format;
 	      p_env->tocent[i].datastart   = 0;
 	      p_env->tocent[i].track_green = false;
@@ -453,6 +460,11 @@ parse_nrg (_img_private_t *p_env, const char *psz_nrg_name,
 	    }
 	  } else if (2 == disc_mode) {
 	    for (i=0; i<p_env->gen.i_tracks; i++) {
+	      if (i > CDIO_CD_MAX_TRACKS) {
+		cdio_warn ("Track number %d is too large; maximum track number is %d.",
+			   i, CDIO_CD_MAX_TRACKS);
+                return false;
+	      }
 	      p_env->tocent[i].track_green = true;
 	      p_env->tocent[i].track_format= track_format;
 	      p_env->tocent[i].datasize    = CDIO_CD_FRAMESIZE;
