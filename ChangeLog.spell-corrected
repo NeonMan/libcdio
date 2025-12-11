@@ -1,6 +1,292 @@
-2024-12-25  R. Bernstein <rocky@users.noreply.github.com>
+2025-12-11  R. Bernstein <rocky@gnu.org>
 
-	* : Merge pull request #6 from pbatard/warnings2 Fix some more warnings
+	* Makefile.am: Update ChangeLog creation
+
+2025-12-11  R. Bernstein <rocky@gnu.org>
+
+	* .gitignore: Ignore admin-tools for now
+
+2025-12-11  R. Bernstein <rocky@gnu.org>
+
+	* doc/glossary.texi: move @anchor outside of @item
+
+2025-12-11  R. Bernstein <rocky@gnu.org>
+
+	* configure.ac, doc/2006-summer-of-code.txt,
+	doc/cd-text-format.texi, doc/glossary.texi,
+	doc/how-to-make-a-release.md, doc/libcdio.texi,
+	include/cdio/cd_types.h, include/cdio/device.h,
+	include/cdio/ecma_167.h, include/cdio/mmc.h,
+	include/cdio/mmc_ll_cmds.h, include/cdio/rock.h,
+	include/cdio/track.h, include/cdio/utf8.h, include/cdio/xa.h,
+	lib/cdio++/devices.cpp, lib/cdio++/iso9660.cpp,
+	lib/driver/MSWindows/win32.c, lib/driver/MSWindows/win32_ioctl.c,
+	lib/driver/Makefile.am, lib/driver/_cdio_generic.c,
+	lib/driver/_cdio_stdio.c, lib/driver/aix.c, lib/driver/cd_types.c,
+	lib/driver/cdio_private.h, lib/driver/cdtext.c,
+	lib/driver/device.c, lib/driver/image.h, lib/driver/image/bincue.c,
+	lib/driver/image/cdrdao.c, lib/driver/image/nrg.c,
+	lib/driver/memory.c, lib/driver/mmc/mmc.c,
+	lib/driver/mmc/mmc_ll_cmds.c, lib/driver/mmc/mmc_private.h,
+	lib/driver/mmc/mmc_util.c, lib/driver/osx.c, lib/driver/track.c,
+	lib/iso9660/Makefile.am, lib/iso9660/iso9660.c,
+	lib/iso9660/iso9660_private.h, lib/udf/filemode.c,
+	lib/udf/udf_fs.c, parse/toc.y, src/iso-info.c, src/mmc-tool.c,
+	src/util.c, src/util.h, test/check_cue.sh.in,
+	test/check_iso_read.sh.in, test/data/t9.toc,
+	test/driver/mmc_read.c, test/testgetdevices.c, test/testiso9660.c:
+	Numerous spelling corrections via codespell
+
+2025-12-11  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog-spell-corrected.diff, configure.ac: Get ready for
+	release 20201.rc1
+
+2025-12-11  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #42 from libcdio/add-track-limits Add track limit checking on image driver parsers
+
+2025-12-04  R. Bernstein <rocky@gnu.org>
+
+	* lib/driver/image/bincue.c, lib/driver/image/nrg.c: More checks
+
+2025-12-04  R. Bernstein <rocky@gnu.org>
+
+	* lib/driver/image/bincue.c: More track checking
+
+2025-12-04  R. Bernstein <rocky@gnu.org>
+
+	* .github/ISSUE_TEMPLATE/config.yml, ChangeLog.spell-corrected,
+	doc/cd-text-format.html, lib/driver/image/cdrdao.c,
+	lib/driver/image_common.h, test/data/Makefile.am,
+	test/data/bad-tracknum-exceeded.cue,
+	test/data/bad-tracknum-exceeded.toc, test/driver/bincue.c,
+	test/driver/cdrdao.c: More checks drivers for CDIO_CD_MAX_TRACKS
+
+2025-10-28  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #41 from libcdio/more-thanks Update who we are indebted to.
+
+2025-10-28  UltraFuzzy <>
+
+	* lib/iso9660/iso9660.c, test/testiso9660.c: Tiny change to iso9660
+	offset handling. iso9660 test code simplified.
+
+2025-10-21  UltraFuzzy <>
+
+	* test/testiso9660.c: Fix timezone names in iso9660 test to make
+	test passable on Linux.
+
+2025-10-20  UltraFuzzy <>
+
+	* lib/iso9660/iso9660.c, test/testiso9660.c: Fix ISO 9660 timezone
+	offset signs, add extreme timezone tests.
+
+2025-10-21  R. Bernstein <rocky@gnu.org>
+
+	* THANKS: Update who we are indebted to.
+
+2025-10-15  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #39 from UltraFuzzy/macos-hwinfo-fix Iterate up IOKit registry parents instead of string matching.
+
+2025-10-05  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #37 from UltraFuzzy/cdio_get_driver_fd Add cdio_get_device_fd()
+
+2025-10-01  UltraFuzzy <>
+
+	* lib/driver/MSWindows/win32.c: Revise comment on
+	get_device_fd_win32().
+
+2025-10-01  UltraFuzzy <>
+
+	* lib/driver/MSWindows/win32.c: Add Windows implementation of
+	cdio_get_device_fd().
+
+2025-09-29  UltraFuzzy <>
+
+	* lib/driver/Makefile.am: Increment libcdio_la_CURRENT and
+	libcdio_la_AGE.
+
+2025-09-29  UltraFuzzy <>
+
+	* include/cdio/device.h, lib/driver/FreeBSD/freebsd.c,
+	lib/driver/MSWindows/win32.c, lib/driver/_cdio_generic.c,
+	lib/driver/aix.c, lib/driver/cdio_private.h, lib/driver/device.c,
+	lib/driver/generic.h, lib/driver/gnu_linux.c,
+	lib/driver/image/bincue.c, lib/driver/image/cdrdao.c,
+	lib/driver/image/nrg.c, lib/driver/netbsd.c, lib/driver/osx.c,
+	lib/driver/solaris.c: Add cdio_get_device_fd()
+
+2025-09-04  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #34 from
+	ermezavx/fix-incorrect-track-length-for-99th-CD-track Fix incorrect track length calculation for the last track on CDs
+
+2025-08-27  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #33 from khwolf/master Typos in util.c
+
+2025-07-14  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #32 from Bi11/fix-joliet-filenames Fix buffer overrun for Joliet filenames
+
+2025-06-30  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #31 from libcdio/respect-FILE-name-inside-cue Respect FILE name value inside cue file
+
+2025-06-21  R. Bernstein <rocky@gnu.org>
+
+	* lib/driver/image/bincue.c, test/cdda.right, test/cdda_4_5.right,
+	test/check_cue.sh.in, test/check_opts0.right,
+	test/check_opts1.right, test/check_opts2.right,
+	test/check_opts3.right, test/check_opts4.right,
+	test/check_opts5.right, test/check_opts6.right,
+	test/check_opts7.right, test/data/cdda.cue, test/data/cdda2.cue,
+	test/data/isofs-m1.cue, test/data/p1.cue, test/driver/bincue.c:
+	Respect FILE name value inside cue file Also, adjust check_opts values based on recent change for MCN
+	handling
+
+2025-06-08  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #29 from t-w/lfs_32bit_issue21 autotools: fix LFS support on 32bit systems, #21
+
+2025-05-28  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #28 from
+	brunodev85/joliet-level-on-driver-arg Add joliet-level key to the driver arg
+
+2025-05-21  BrunoSX <brunodeveloper85@gmail.com>
+
+	* lib/driver/image_common.c: Add joliet-level key to the driver arg
+
+2025-05-19  R. Bernstein <rocky@gnu.org>
+
+	* .editorconfig: Add editorconfig based on Rufus' editorconfig
+
+2025-05-14  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #26 from pbatard/udf_setpos Add udf_setpos() function call
+
+2025-05-14  Pete Batard <pete@akeo.ie>
+
+	* lib/udf/udf_file.c: Fix wrong value being reported in a warning
+	message
+
+2025-04-10  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #25 from ephemeralriggs/issue_24 Fix NULL for C++ compilers
+
+2025-03-30  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #22 from olda-rosice/master Fixed get MCN on Linux
+
+2025-03-30  Pete Batard <pete@akeo.ie>
+
+	* : Merge pull request #23 from pbatard/fix-mingw-tests Fix MinGW tests
+
+2025-03-29  olda-rosice <oldrich.strazovsky@gmail.com>
+
+	* lib/driver/image/bincue.c, lib/driver/image/cdrdao.c: Fix sector
+	count calculations
+
+2025-03-29  olda-rosice <oldrich.strazovsky@gmail.com>
+
+	* lib/driver/image_common.c: Image driver supports ISRC
+
+2025-03-29  olda-rosice <oldrich.strazovsky@gmail.com>
+
+	* lib/driver/gnu_linux.c: Switch get MCN to MMC
+
+2025-02-03  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #19 from libcdio/iso-option-i-fix iso-info Issue #17
+
+2025-01-22  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #16 from maxz/fix-typos Fix typos.
+
+2025-01-11  R. Bernstein <rocky@gnu.org>
+
+	* configure.ac: Bump version number
+
+2025-01-11  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #12 from libcdio/release-2.2.0 Get ready for release 2.2.0
+
+2025-01-09  R. Bernstein <rocky@gnu.org>
+
+	* : commit 420f558f9c07589f36c1d5e10525d9a8b439b150 Merge: f0983da0
+	c33133ce Author: R. Bernstein <rocky@users.noreply.github.com> Date:
+	Thu Jan 9 18:43:13 2025 -0500
+
+2025-01-09  R. Bernstein <rocky@gnu.org>
+
+	* NEWS.md: Tweak ABI incompatibility message.
+
+2017-07-28  Chris Lamb <chris@chris-lamb.co.uk>
+
+	* configure.ac, doc/doxygen/Doxyfile.in: Drop LIBCDIO_SOURCE_PATH by
+	dropping STRIP_FROM_PATH Doxygen setup; it's not used as
+	FULL_PATH_NAMES = no
+
+2025-01-09  R. Bernstein <rocky@gnu.org>
+
+	* NEWS.md, configure.ac, lib/cdio++/Makefile.am,
+	lib/iso9660/Makefile.am: Get ready for release 2.2.0
+
+2025-01-09  R. Bernstein <rocky@gnu.org>
+
+	* configure.ac: Bump version string
+
+2025-01-07  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #8 from libcdio/release-2.1.1 Release 2.1.1
+
+2025-01-04  R. Bernstein <rocky@gnu.org>
+
+	* NEWS.md: Note CD-Text available on macOS
+
+2025-01-04  R. Bernstein <rocky@gnu.org>
+
+	* doc/glossary.texi: Correct some URLs
+
+2025-01-04  R. Bernstein <rocky@users.noreply.github.com>
+
+	* doc/libcdio.texi: Update libcdio.texi
+
+2025-01-04  R. Bernstein <rocky@users.noreply.github.com>
+
+	* doc/glossary.texi: Update glossary.texi
+
+2025-01-04  R. Bernstein <rocky@gnu.org>
+
+	* doc/glossary.texi, doc/libcdio.texi: Misc corrections to docs...  * Update most recent spec numbers and update URLs * Revise example output for iso-info and C code for example1
+
+2025-01-03  R. Bernstein <rocky@gnu.org>
+
+	* NEWS.md: Update NEWS make sure to include all of Robert Kausch's good work
+
+2025-01-01  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog-spell-corrected.diff, ChangeLog.spell-corrected,
+	NEWS.md, configure.ac, include/cdio/iso9660.h, src/util.c: Get ready
+	for release 2.1.1
+
+2025-01-03  R. Bernstein <rocky@users.noreply.github.com>
+
+	* lib/driver/osx.c: Merge pull request #10 from enzo1982/cdtext-osx Support reading CD-Text on macOS
+
+2025-01-03  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #9 from enzo1982/cdtext-win32 Support reading CD-Text with the Win32 IOCTL driver
+
+2024-12-24  Pete Batard <pete@akeo.ie>
+
+	* lib/driver/cdtext.c, lib/driver/device.c: Add some boundary checks
+	for enums used to access arrays This is mostly to silence some warnings from the Visual Studio
+	static analyser.
 
 2024-12-24  Pete Batard <pete@akeo.ie>
 
