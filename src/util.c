@@ -121,7 +121,7 @@ open_input(const char *psz_source, source_image_t source_image,
     p_cdio = cdio_open_am (psz_source, DRIVER_BINCUE, psz_access_mode);
     if (!p_cdio) {
       if (psz_source) {
-	err_exit("%s: Error in opening CDRWin BIN/CUE image for BIN"
+	err_exit("Error in opening CDRWin BIN/CUE image for BIN"
 		 " input %s\n", psz_source);
       } else {
 	err_exit("%s", "Cannot find CDRWin BIN/CUE image.\n");
@@ -132,7 +132,7 @@ open_input(const char *psz_source, source_image_t source_image,
     p_cdio = cdio_open_cue(psz_source);
     if (p_cdio==NULL) {
       if (psz_source) {
-	err_exit("%s: Error in opening CDRWin BIN/CUE image for CUE"
+	err_exit("Error in opening CDRWin BIN/CUE image for CUE"
 		 " input %s\n", psz_source);
       } else {
 	err_exit("%s", "Cannot find CDRWin BIN/CUE image.\n");

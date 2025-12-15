@@ -3,6 +3,14 @@ NEWS
 
 Here we have a summary of the major changes by release. See the git commit history or `ChangeLog` for more fine-grained changes.
 
+Version 2.3.0
+-----------------
+
+2025-12-23
+
+* Bump version number to 2.3.0
+* Incorporate Adrian Reber's format string change.
+
 Version 2.2.1.rc1
 -----------------
 
