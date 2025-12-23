@@ -324,7 +324,7 @@ test_read(char *psz_drive_path, unsigned int i_flag)
     */
     cdio_loglevel_default = CDIO_LOG_WARN;
 
-    /* Test availability of info for cdrecord style adresses .
+    /* Test availability of info for cdrecord style addresses .
      */
     scsi_tuple = cdio_get_arg(p_cdio, "scsi-tuple");
     if (scsi_tuple == NULL) {

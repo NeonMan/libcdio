@@ -1,5 +1,5 @@
 /* Common Multimedia Command (MMC) routines.
-  Copyright (C) 2004-2008, 2010-2012, 2014
+  Copyright (C) 2004-2008, 2010-2012, 2014, 2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -279,7 +279,7 @@ audio_read_subchannel_mmc ( void *p_user_data, cdio_subchannel_t *p_subchannel)
 }
 
 /**
-  Get the block size for subsequest read requests, via MMC.
+  Get the block size for subsequent read requests, via MMC.
   @return the blocksize if > 0; error if <= 0
  */
 int
@@ -474,7 +474,7 @@ mmc_get_dvd_struct_physical_private ( void *p_env,
 
   /*
    * place the data... really ugly, but at least we won't have to
-   * worry about endianess in userspace.
+   * worry about endianness in userspace.
    */
   memset(layer, 0, sizeof(*layer));
   layer->book_version = base[0] & 0xf;
@@ -1081,7 +1081,7 @@ int mmc_get_tray_status(const CdIo_t *p_cdio)
 /* Added in version 0.83 by scdbackup */
 /**
    Obtain the SCSI sense reply of the most-recently-performed MMC command.
-   These bytes give an indication of possible problems which occured in
+   These bytes give an indication of possible problems which occurred in
    the drive while the command was performed. With some commands they tell
    about the current state of the drive (e.g. 00h TEST UNIT READY).
    @param p_cdio CD structure set by cdio_open().
@@ -1143,7 +1143,7 @@ mmc_run_cmd( const CdIo_t *p_cdio, unsigned int i_timeout_ms,
 /* Added by SukkoPera to allow CDB length to be specified manually */
 /**
    Run a Multimedia command (MMC) specifying the CDB length.
-   The motivation here is for example ot use in is an undocumented
+   The motivation here is, for example, to use in is an undocumented
    debug command for LG drives (namely E7), whose length is being
    miscalculated by mmc_get_cmd_len(); it doesn't follow the usual
    code number to length conventions. Patch supplied by SukkoPera.

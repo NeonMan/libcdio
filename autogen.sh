@@ -3,8 +3,8 @@
 # Additional options go to configure.
 
 # For OpenBSD
-export AUTOCONF_VERSION=2.69
-export AUTOMAKE_VERSION=1.15
+export AUTOCONF_VERSION=2.71
+export AUTOMAKE_VERSION=1.16.5
 
 echo "Rebuilding ./configure with autoreconf..."
 autoreconf -f -i

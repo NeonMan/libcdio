@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2006, 2008, 2010-2012, 2014-2015, 2017
+  Copyright (C) 2003-2006, 2008, 2010-2012, 2014-2015, 2017, 2025
    Rocky Bernstein <rocky@gnu.org>
   from vcdimager code:
   Copyright (C) 2001 Herbert Valerio Riedel <hvr@gnu.org>
@@ -113,7 +113,7 @@ typedef enum {
 #include <IOKit/storage/IOBDMedia.h>
 #include <IOKit/storage/IOBDMediaBSDClient.h>
 #else
-#define kIOBDMediaClass "IOBDMedia" // It does not hurt, simplyfies rest of code
+#define kIOBDMediaClass "IOBDMedia" // It does not hurt, simplifies rest of code
 #endif
 
 #ifdef HAVE_DISKARBITRATION

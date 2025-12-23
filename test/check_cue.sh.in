@@ -1,5 +1,5 @@
 #!/bin/sh
-# Tests to see that BIN/CUE and cdrdao TOC file iamge reading is correct
+# Tests to see that BIN/CUE and cdrdao TOC file image reading is correct
 # (via cd-info).
 
 if test ! -d "@VCDINFO_LIBS@" ; then

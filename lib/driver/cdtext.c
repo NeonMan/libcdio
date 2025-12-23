@@ -60,7 +60,7 @@ const char *cdtext_genre[MAX_CDTEXT_GENRE_CODE] =
   "Not Defined",
   "Adult Contemporary",
   "Alternative Rock",
-  "Childrens Music",
+  "Children's Music",
   "Classical",
   "Contemporary Christian",
   "Country",

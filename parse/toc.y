@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005, 2008 Rocky Bernstein <rocky@gnu.org>
+    Copyright (C) 2005, 2008, 2025 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* Yacc grammer for cdrdao TOC file */
+/* Yacc grammar for cdrdao TOC file */
 %{
 #include "toclexer.h"
 #include "errno.h"
@@ -27,7 +27,7 @@ int tocerror (char const *s);
 #endif
 
 %}
-     
+
 /* BISON Declarations */
 
 %token ARRANGER
@@ -105,7 +105,7 @@ int tocerror (char const *s);
  */
 toc: catalog_or_tocType cdTextGlobal tracks ;
 
-catalog_or_tocType: catalog_or_tocType CATALOG String 
+catalog_or_tocType: catalog_or_tocType CATALOG String
                     | catalog_or_tocType tocType
                     | /* empty */ ;
 
@@ -115,56 +115,56 @@ track: TRACK trackMode opt_subChannelMode opt_track_flags
     cdTextTrack opt_pregap_msf subTracks_or_starts_or_ends opt_index_msfs
     ;
 
-opt_track_flags: opt_track_flags track_flag 
+opt_track_flags: opt_track_flags track_flag
        | /* empty */;
 
-track_flag: ISRC String 
-          | opt_no COPY 
+track_flag: ISRC String
+          | opt_no COPY
           | opt_no PRE_EMPHASIS
-          | TWO_CHANNEL_AUDIO  
+          | TWO_CHANNEL_AUDIO
           | FOUR_CHANNEL_AUDIO ;
 
-opt_no: NO 
+opt_no: NO
           | /* empty */;
 
-opt_pregap_msf: PREGAP msf 
+opt_pregap_msf: PREGAP msf
          | /* empty  */;
 
-opt_index_msfs: opt_index_msfs INDEX msf 
+opt_index_msfs: opt_index_msfs INDEX msf
          | /* empty */ ;
 
-subTrack_or_start_or_end: subTrack 
-         | START opt_msf 
+subTrack_or_start_or_end: subTrack
+         | START opt_msf
          | END opt_msf ;
 
-subTracks_or_starts_or_ends: subTracks_or_starts_or_ends 
-                             subTrack_or_start_or_end 
+subTracks_or_starts_or_ends: subTracks_or_starts_or_ends
+                             subTrack_or_start_or_end
                            | subTrack_or_start_or_end ;
 
-subTrack: 
+subTrack:
     AudioFile String opt_swap opt_start_offset samples
      | DATAFILE String opt_start_length
-     | FIFO String dataLength 
-     | SILENCE samples 
-     | ZERO opt_dataMode opt_subChannelMode dataLength 
+     | FIFO String dataLength
+     | SILENCE samples
+     | ZERO opt_dataMode opt_subChannelMode dataLength
  ;
 
 AudioFile: AUDIOFILE | FILE_TOKEN ;
 
-opt_swap: SWAP 
+opt_swap: SWAP
      | /* empty */;
 
-opt_start_offset: "#" sLong 
+opt_start_offset: "#" sLong
      | /* empty */;
 
-opt_start_length: "#" sLong 
-     | '#' sLong dataLength 
+opt_start_length: "#" sLong
+     | '#' sLong dataLength
      | /* empty */;
 
-opt_dataMode: dataMode 
+opt_dataMode: dataMode
      | /* empty */ ;
 
-opt_string: String 
+opt_string: String
      | /* empty */  ;
 
 uLong: Integer ;
@@ -189,13 +189,13 @@ trackMode:  AUDIO | MODE1 | MODE1_RAW | MODE2
      ;
 
 
-opt_subChannelMode: RW | RW_RAW 
+opt_subChannelMode: RW | RW_RAW
      | /* empty  */;
 
 tocType: CD_DA | CD_ROM | CD_ROM_XA | CD_I ;
 
-packType:  TITLE | PERFORMER | SONGWRITER | COMPOSER | ARRANGER  
-     | MESSAGE | DISC_ID | GENRE | TOC_INFO1 | TOC_INFO2  
+packType:  TITLE | PERFORMER | SONGWRITER | COMPOSER | ARRANGER
+     | MESSAGE | DISC_ID | GENRE | TOC_INFO1 | TOC_INFO2
      | RESERVED1 | RESERVED2 | RESERVED3 | RESERVED4 | UPC_EAN
      | ISRC | SIZE_INFO ;
 
@@ -204,20 +204,20 @@ binaryData:  LeftBrace Integers RightBrace  ;
 
 Integers:  Integers "," Integer | Integer ;
 
-         
+
 cdTextItem: packType opt_string_or_binaryData | ;
 
 opt_string_or_binaryData: opt_string | binaryData ;
- 
+
 cdTextBlock:  LANGUAGE Integer LeftBrace cdTextItem RightBrace ;
 
-opt_cdTextBlock:  cdTextBlock 
+opt_cdTextBlock:  cdTextBlock
          | /* empty */;
 
-opt_cdTextBlocks:  opt_cdTextBlocks cdTextBlock 
+opt_cdTextBlocks:  opt_cdTextBlocks cdTextBlock
          | /* empty */ ;
 
-opt_cdTextLanguageMap : LANGUAGE_MAP LeftBrace Language_mappings RightBrace 
+opt_cdTextLanguageMap : LANGUAGE_MAP LeftBrace Language_mappings RightBrace
          | /* empty */;
 
 Language_mappings: Language_mappings Language_mapping | Language_mapping ;
@@ -228,8 +228,8 @@ Language_id: Integer | EN;
 
 cdTextTrack:  CD_TEXT LeftBrace opt_cdTextBlocks  RightBrace | ;
 
-cdTextGlobal: CD_TEXT LeftBrace opt_cdTextLanguageMap opt_cdTextBlock  
-                      RightBrace 
+cdTextGlobal: CD_TEXT LeftBrace opt_cdTextLanguageMap opt_cdTextBlock
+                      RightBrace
             | /* empty */;
 
 
@@ -238,7 +238,7 @@ cdTextGlobal: CD_TEXT LeftBrace opt_cdTextLanguageMap opt_cdTextBlock
 #ifdef STANDALONE
 /* The controlling function */
 
-int 
+int
 tocerror(char const *s)	/* called by tocparse on error */
 {
 	printf("%s\n",s);
@@ -251,7 +251,7 @@ main( int argc, char **argv )
   int c;
 
   tocdebug = 0;
-  
+
   while (1) {
     int option_index = 0;
     static struct option long_options[] = {
@@ -262,7 +262,7 @@ main( int argc, char **argv )
     c = getopt_long (argc, argv, "d", long_options, &option_index);
     if (c == -1)
       break;
-    
+
     switch (c) {
     case 'd':
       tocdebug = 1;
@@ -272,11 +272,11 @@ main( int argc, char **argv )
       exit(1);
     }
   }
-  
+
   if ( optind < argc ) {
     toc_in = fopen( argv[optind], "r" );
     if (!toc_in) {
-      printf("unable to open %s for reading: %s\n", argv[optind], 
+      printf("unable to open %s for reading: %s\n", argv[optind],
 	     strerror(errno));
       exit(1);
     }

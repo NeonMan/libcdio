@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005-2006, 2008, 2011, 2013-2014, 2017, 2024
+  Copyright (C) 2005-2006, 2008, 2011, 2013-2014, 2017, 2024-2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ const char VSD_STD_ID_TEA01[] = {'T', 'E', 'A', '0', '1'};
 /*
  * The UDF specs are pretty clear on how each data structure is made
  * up, but not very clear on how they relate to each other.  Here is
- * the skinny... This demostrates a filesystem with one file in the
+ * the skinny... This demonstrates a filesystem with one file in the
  * root directory.  Subdirectories are treated just as normal files,
  * but they have File Id Descriptors of their children as their file
  * data.  As for the Anchor Volume Descriptor Pointer, it can exist in

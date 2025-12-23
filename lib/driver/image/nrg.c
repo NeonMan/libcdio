@@ -101,7 +101,7 @@ _register_mapping (_img_private_t *env, lsn_t start_lsn, uint32_t sec_count,
   env->size = MAX (env->size, (start_lsn + sec_count));
 
   /* Update *this_track and track_num. These structures are
-     in a sense redundant witht the obj->mapping list. Perhaps one
+     in a sense redundant with the obj->mapping list. Perhaps one
      or the other can be eliminated.
    */
 

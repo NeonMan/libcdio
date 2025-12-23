@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2005, 2006, 2008, 2011, 2013
+  Copyright (C) 2003-2005, 2006, 2008, 2011, 2013, 2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -285,7 +285,7 @@ cdio_guess_cd_type(const CdIo_t *p_cdio, int start_session, track_t i_track,
 	return ret;
 
       /* Maybe there is an UDF anchor in IOS session
-	 so its ISO/UDF session and we prefere UDF */
+	 so its ISO/UDF session and we prefer UDF */
       if ( _cdio_is_UDF() ) {
 	/* Detect UDF version.
 	   Test if we have a valid version of UDF the xbox can read natively */

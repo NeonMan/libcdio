@@ -346,7 +346,7 @@ parse_cuefile (_img_private_t *cd, const char *psz_cue_name)
                          "%s line %d after word CATALOG:",
                          psz_cue_name, i_line);
                 cdio_log(log_level,
-                         "Character \"%c\" at postition %i of token \"%s\" "
+                         "Character \"%c\" at position %i of token \"%s\" "
                          "is not all digits.",
                          psz_field[j], j+1, psz_field);
                 goto err_exit;

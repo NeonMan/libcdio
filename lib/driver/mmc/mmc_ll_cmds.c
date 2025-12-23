@@ -246,7 +246,7 @@ mmc_prevent_allow_medium_removal(const CdIo_t *p_cdio,
    2 The 8-byte sector sub-header of mode 2 formed sectors is
    returned.
    3 Both sector header and sub-header (12 bytes) is returned.
-   The Header preceeds the rest of the bytes (e.g. user-data bytes)
+   The Header precedes the rest of the bytes (e.g. user-data bytes)
    that might get returned.
 
    @param b_user_data  Return user data if true.

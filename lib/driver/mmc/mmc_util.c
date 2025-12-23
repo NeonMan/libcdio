@@ -68,13 +68,13 @@ const char mmc_sense_key2str[16][40] = {
 
 /**
     The maximum value in milliseconds that we will wait on an MMC
-    command.  
+    command.
 */
 uint32_t mmc_timeout_ms = MMC_TIMEOUT_DEFAULT;
 
 /**
     The maximum value in milliseconds that we will wait on an MMC read
-  command.  
+  command.
 */
 uint32_t mmc_read_timeout_ms = MMC_READ_TIMEOUT_DEFAULT;
 
@@ -98,14 +98,14 @@ mmc_audio_state2str( uint8_t i_audio_state )
         return "error";
       case CDIO_MMC_READ_SUB_ST_NO_STATUS:
         return "no status";
-      default:                     
+      default:
         return "unknown";
     }
 }
 
 /**
   On input a MODE_SENSE command was issued and we have the results
-  in p. We interpret this and return a bit mask set according to the 
+  in p. We interpret this and return a bit mask set according to the
   capabilities.
 */
 void
@@ -125,7 +125,7 @@ mmc_get_drive_cap_buf(const uint8_t *p,
   if (p[5] & 0x10) *p_read_cap  |= CDIO_DRIVE_CAP_READ_C2_ERRS;
   if (p[5] & 0x20) *p_read_cap  |= CDIO_DRIVE_CAP_READ_ISRC;
   if (p[5] & 0x40) *p_read_cap  |= CDIO_DRIVE_CAP_READ_MCN;
-  
+
   /* Writer */
   if (p[3] & 0x01) *p_write_cap |= CDIO_DRIVE_CAP_WRITE_CD_R;
   if (p[3] & 0x02) *p_write_cap |= CDIO_DRIVE_CAP_WRITE_CD_RW;
@@ -137,7 +137,7 @@ mmc_get_drive_cap_buf(const uint8_t *p,
   if (p[4] & 0x40) *p_misc_cap  |= CDIO_DRIVE_CAP_MISC_MULTI_SESSION;
   if (p[6] & 0x01) *p_misc_cap  |= CDIO_DRIVE_CAP_MISC_LOCK;
   if (p[6] & 0x08) *p_misc_cap  |= CDIO_DRIVE_CAP_MISC_EJECT;
-  if (p[6] >> 5 != 0) 
+  if (p[6] >> 5 != 0)
     *p_misc_cap |= CDIO_DRIVE_CAP_MISC_CLOSE_TRAY;
 }
 
@@ -150,7 +150,7 @@ mmc_feature2str( int i_feature )
   switch(i_feature) {
   case CDIO_MMC_FEATURE_PROFILE_LIST:
     return "Profile List";
-  case CDIO_MMC_FEATURE_CORE: 
+  case CDIO_MMC_FEATURE_CORE:
     return "Core";
   case CDIO_MMC_FEATURE_MORPHING:
     return "Morphing" ;
@@ -218,7 +218,7 @@ mmc_feature2str( int i_feature )
       " parameters";
   case CDIO_MMC_FEATURE_LU_SN:
     return "The Logical Unit Unique Identifier";
-  default: 
+  default:
     {
       static char buf[100];
       if ( 0 != (i_feature & 0xFF00) ) {
@@ -303,7 +303,7 @@ mmc_feature_profile2str( int i_feature_profile )
     return "HD-DVD-RAM";
   case CDIO_MMC_FEATURE_PROF_NON_CONFORM:
     return "The Logical Unit does not conform to any Profile";
-  default: 
+  default:
     {
       static char buf[100];
       snprintf(buf, sizeof(buf), "Unknown Profile %x", i_feature_profile);
@@ -325,7 +325,7 @@ mmc_is_disctype_bd (cdio_mmc_feature_profile_t disctype) {
     }
 }
 
-bool 
+bool
 mmc_is_disctype_cdrom (cdio_mmc_feature_profile_t disctype) {
     switch (disctype) {
       case CDIO_MMC_FEATURE_PROF_CD_ROM:
@@ -389,11 +389,11 @@ mmc_is_disctype_overwritable (cdio_mmc_feature_profile_t disctype) {
 
 
 bool
-mmc_is_disctype_rewritable (cdio_mmc_feature_profile_t disctype) { 
-    /* discs that need blanking before re-use */
+mmc_is_disctype_rewritable (cdio_mmc_feature_profile_t disctype) {
+    /* discs that need blanking before reuse */
     if (mmc_is_disctype_overwritable (disctype))
         return true;
-    
+
     switch (disctype) {
       case CDIO_MMC_FEATURE_PROF_CD_RW:
       case CDIO_MMC_FEATURE_PROF_DVD_RW_SEQ:
@@ -403,4 +403,3 @@ mmc_is_disctype_rewritable (cdio_mmc_feature_profile_t disctype) {
         return false;
     }
 }
-

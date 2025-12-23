@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2005, 2008, 2011-2013
+  Copyright (C) 2003-2005, 2008, 2011-2013, 2025
   Rocky Bernstein <rocky@gnu.org>
   Copyright (C) 2001 Herbert Valerio Riedel <hvr@gnu.org>
 
@@ -164,7 +164,7 @@ cdio_get_num_tracks (const CdIo_t *p_cdio)
   }
 }
 
-/*! Find the track which contans lsn.
+/*! Find the track which contains lsn.
     CDIO_INVALID_TRACK is returned if the lsn outside of the CD or
     if there was some error.
 

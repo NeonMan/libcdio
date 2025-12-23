@@ -1,6 +1,6 @@
 /*
     Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2012
-                  2016, 2019 Rocky Bernstein <rocky@gnu.org>
+                  2016, 2019, 2025 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -793,7 +793,7 @@ driver_return_code_t mmc_audio_get_volume (CdIo_t *p_cdio,  /*out*/
 
   /**
     Run a Multimedia command (MMC) specifying the CDB length.
-    The motivation here is for example ot use in is an undocumented
+    The motivation here is for example of use in is an undocumented
     debug command for LG drives (namely E7), whose length is being
     miscalculated by mmc_get_cmd_len(); it doesn't follow the usual
     code number to length conventions. Patch supplied by SukkoPera.
@@ -818,7 +818,7 @@ driver_return_code_t mmc_audio_get_volume (CdIo_t *p_cdio,  /*out*/
 
   /**
       Obtain the SCSI sense reply of the most-recently-performed MMC command.
-      These bytes give an indication of possible problems which occured in
+      These bytes give an indication of possible problems which occurred in
       the drive while the command was performed. With some commands they tell
       about the current state of the drive (e.g. 00h \p TEST \p UNIT \p READY).
       @param p_cdio CD structure set by cdio_open().
@@ -837,7 +837,7 @@ driver_return_code_t mmc_audio_get_volume (CdIo_t *p_cdio,  /*out*/
                            cdio_mmc_request_sense_t **pp_sense);
 
   /**
-    Set the block size for subsequest read requests, via MMC.
+    Set the block size for subsequent read requests, via MMC.
   */
   driver_return_code_t mmc_set_blocksize ( const CdIo_t *p_cdio,
                                            uint16_t i_blocksize);

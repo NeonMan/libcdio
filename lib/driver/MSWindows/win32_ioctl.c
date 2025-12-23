@@ -67,7 +67,7 @@
 #include "cdio_assert.h"
 #include <cdio/mmc.h>
 #include "cdio/logging.h"
-#include "cdtext_private.h" 
+#include "cdtext_private.h"
 
 #if defined (_XBOX)
 #define windows_error(loglevel,i_err) {                    \
@@ -555,7 +555,7 @@ run_mmc_cmd_win32ioctl( void *p_user_data,
        SPC 4.5.3, Table 26: 252 bytes legal, 263 bytes possible */
     int i_sense_size = p_swb->ucSenseBuf.additional_sense_len + 8;
     if (i_sense_size > sizeof(p_swb->ucSenseBuf)) {
-      cdio_warn("Sense size retuned %d is greater buffer size %d\n",
+      cdio_warn("Sense size returned %d is greater buffer size %d\n",
 		i_sense_size, sizeof(p_swb->ucSenseBuf));
       sense_size = sizeof(p_swb->ucSenseBuf);
     }

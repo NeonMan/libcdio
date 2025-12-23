@@ -292,7 +292,7 @@ get_disc_last_lsn_cdrdao (void *p_user_data)
 
 #define MAXLINE 512
 #define UNIMPLIMENTED_MSG \
-  cdio_log(log_level, "%s line %d: unimplimented keyword: %s",  \
+  cdio_log(log_level, "%s line %d: unimplemented keyword: %s",  \
 	   psz_cue_name, i_line, psz_keyword)
 
 
@@ -364,7 +364,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 			     "%s line %d after word CATALOG:",
 			     psz_cue_name, i_line);
 		    cdio_log(log_level,
-			     "Character \"%c\" at postition %i of token \"%s\""
+			     "Character \"%c\" at position %i of token \"%s\""
 			     " is not all digits.",
 			     psz_field[j], j+1, psz_field);
 		    goto err_exit;
@@ -691,7 +691,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	  } else {
 	      goto format_error;
 	  }
-	  cdio_log(log_level, "%s line %d: SILENCE not fully implimented",
+	  cdio_log(log_level, "%s line %d: SILENCE not fully implemented",
 		   psz_cue_name, i_line);
 
 	/* ZERO <length> */

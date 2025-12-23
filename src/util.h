@@ -1,7 +1,7 @@
 /*
-  Copyright (C) 2003, 2004, 2005, 2008, 2011, 2012, 2024
+  Copyright (C) 2003, 2004, 2005, 2008, 2011, 2012, 2024-2025
   Rocky Bernstein <rocky@gnu.org>
-  
+
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -90,7 +90,7 @@
    if (opts.debug_level >= level) \
      report(stderr, "%s: "s, __func__ , __VA_ARGS__)
 #else
-#define dbg_print(level, s, args...) 
+#define dbg_print(level, s, args...)
 #endif
 
 #define err_exit(fmt, ...) \
@@ -112,7 +112,7 @@ extern char *source_name;
 extern char *program_name;
 extern cdio_log_handler_t gl_default_cdio_log_handler;
 
-/*! Common error exit routine which frees p_cdio. rc is the 
+/*! Common error exit routine which frees p_cdio. rc is the
     return code to pass to exit.
 */
 void myexit(CdIo_t *p_cdio, int rc);
@@ -125,7 +125,7 @@ void print_version (char *psz_program, const char *psz_version,
     pointer. On error the program exits.
  */
 CdIo_t *
-open_input(const char *psz_source, source_image_t source_image, 
+open_input(const char *psz_source, source_image_t source_image,
 	   const char *psz_access_mode);
 
 /*! On Unixish OS's we fill out the device name, from a short name.
@@ -142,12 +142,12 @@ void print_drive_capabilities(cdio_drive_read_cap_t  p_read_cap,
 			      cdio_drive_misc_cap_t  p_misc_cap);
 
 /*! Common place for output routine. In some environments, like XBOX,
-  it may not be desireable to send output to stdout and stderr. */
+  it may not be desirable to send output to stdout and stderr. */
 void report (FILE *stream, const char *psz_format, ...);
 
 /* Prints "ls"-like file attributes */
-void print_fs_attrs(iso9660_stat_t *p_statbuf, bool b_rock, bool b_xa, 
-		    const char *psz_name_untranslated, 
+void print_fs_attrs(iso9660_stat_t *p_statbuf, bool b_rock, bool b_xa,
+		    const char *psz_name_untranslated,
 		    const char *psz_name_translated);
 
 #endif /* UTIL_H */

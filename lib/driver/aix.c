@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004-2006, 2008, 2010, 2011-2013, 2017
+  Copyright (C) 2004-2006, 2008, 2010, 2011-2013, 2017, 2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -173,7 +173,7 @@ init_aix (_img_private_t *p_env)
 
   p_env->gen.init = true;
   p_env->gen.toc_init = false;
-  p_env->gen.u_joliet_level = 0;  /* Assume no Joliet extensions initally */
+  p_env->gen.u_joliet_level = 0;  /* Assume no Joliet extensions initially */
   p_env->access_mode = _AM_CTRL_SCSI;
 
   return true;

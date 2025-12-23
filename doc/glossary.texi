@@ -3,8 +3,9 @@ See also @uref{https://www.videohelp.com/glossary}.
 
 @table @dfn
 
-@item @anchor{ASPI}ASPI
+@item ASPI
 @cindex ASPI
+@anchor{ASPI}
 See @acronym{Win32 ASPI}
 
 @item ATA
@@ -108,8 +109,9 @@ standards.  Specifically, try ``Annex J'' of ``mmc3r10g.pdf''.
 An ``Unofficial CD Text FAQ'' is at
 @url{http://web.ncf.ca/aa571/cdtext.htm}
 
-@item @anchor{XA}CD XA
+@item CD XA
 @cindex CD XA
+@anchor{XA}
 
 CD-ROM EXtended Architecture. A modification to the CD-ROM
 specification that defines two new types of sectors.  CD-ROM XA was
@@ -195,7 +197,7 @@ International Standards Organization.
 @cindex ISO 13346
 
 ISO 13346 / ECMA-167 is a filesystem framework for data exchange on
-overwriteable or pseudo-overwritable media. It serves as the base of UDF.
+overwritable or pseudo-overwritable media. It serves as the base of UDF.
 
 @item ISO 13490
 @cindex ISO 13490
@@ -280,8 +282,9 @@ it can be represented as an unsigned value.
 Media Catalog Number. An identification number on an audio CD.  Also
 called a UPC. Another identification number is ISRC.
 
-@item @anchor{MMC}MMC
+@item MMC
 @cindex MMC (Multimedia Commands)
+@anchor{MMC}
 
 MMC (Multimedia Commands).
 
@@ -297,8 +300,9 @@ Multi-Media Commands standard (MMC). This document generally has a
 numeric level number appended. For example, MMC-6 refers to
 ``Multi-Media Commands - 6.
 
-@item @anchor{models-profiles}Media models and profiles
+@item Media models and profiles
 @cindex Media models and profiles
+@anchor{models-profiles}
 
 MMC classifies media as models, which describe their logical structure,
 and as profiles, which describe the capabilities of the drive with the
@@ -414,8 +418,9 @@ file. Rock Ridge is described by unapproved standard IEEE P1282 / RRIP-1.12
 and based on unapproved IEEE P1281 / SUSP-1.10. It has become a de-facto
 standard on X/Open systems like GNU/Linux, FreeBSD, Solaris, et.\ al.
 
-@item @anchor{SCSI}SCSI
+@item SCSI
 @cindex SCSI
+@anchor{SCSI}
 
 Small Computer System Interface.  A set of ANSI standard electronic
 interfaces (originally developed at Apple Computer) that allow

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2006, 2008, 2010-2012, 2014, 2017
+  Copyright (C) 2003-2006, 2008, 2010-2012, 2014, 2017, 2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 #include <cdio/mmc.h>
 #include <cdio/logging.h>
 #include "cdio_assert.h"
-#include "cdio_private.h" /* protoype for cdio_is_device_win32 */
+#include "cdio_private.h" /* prototype for cdio_is_device_win32 */
 
 #include <string.h>
 

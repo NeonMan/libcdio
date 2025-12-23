@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2006-2009, 2011, 2017
+  Copyright (C) 2003, 2006-2009, 2011, 2017, 2025
    Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -304,7 +304,7 @@ main (int argc, const char *argv[])
 
 #if defined(HAVE_TM_GMTOFF) && !defined(_WIN32)
     /*
-      Both the VS and MingW Windows environemnts are excluded because the POSIX
+      Both the VS and MingW Windows environments are excluded because the POSIX
       environment that MingW provides does not include setenv() or unsetenv().
      */
     {

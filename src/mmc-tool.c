@@ -352,7 +352,7 @@ print_mode_sense (unsigned int i_mmc_size, const uint8_t buf[30])
     printf("\tReads ISRC information.\n");
   }
   if (buf[5] & 0x40) {
-    printf("\tReads ISRC informaton.\n");
+    printf("\tReads ISRC information.\n");
   }
   if (buf[5] & 0x40) {
     printf("\tReads media catalog number (MCN also known as UPC).\n");

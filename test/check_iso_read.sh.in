@@ -39,7 +39,7 @@ rm_if_exists() {
     [ -f $file ] && $RM $file
 }
 
-# Remove driectory $1 if that directory exists
+# Remove directory $1 if that directory exists
 rmdir_if_exists() {
     dir=$1
     [ -d $dir ] && $RM -r $dir

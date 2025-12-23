@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004-2009, 2011-2013, 2017, 2024
+  Copyright (C) 2004-2009, 2011-2013, 2017, 2024-2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@ cdio_generic_init (void *user_data, int open_flags)
   p_env->cdtext  = NULL;
   p_env->scsi_tuple  = NULL;
   p_env->b_cdtext_error = false;
-  p_env->u_joliet_level = 0;  /* Assume no Joliet extensions initally */
+  p_env->u_joliet_level = 0;  /* Assume no Joliet extensions initially */
   return true;
 }
 

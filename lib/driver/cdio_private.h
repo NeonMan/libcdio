@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003-2005, 2008-2009, 2011-2012, 2016-2017
+  Copyright (C) 2003-2005, 2008-2009, 2011-2012, 2016-2017, 2025
   Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
@@ -176,7 +176,7 @@ extern "C" {
     const char * (*get_arg) (void *p_env, const char key[]);
 
     /*!
-      Get the block size for subsequest read requests, via a SCSI MMC
+      Get the block size for subsequent read requests, via a SCSI MMC
       MODE_SENSE 6 command.
     */
     int (*get_blocksize) ( void *p_env );
@@ -300,7 +300,7 @@ extern "C" {
     int (*get_track_channels) ( const void *p_env, track_t i_track );
 
     /*! Return 0 if track is copy protected, 1 if not, or -1 for error
-      or -2 if not implimented (yet). Is this meaningful if not an
+      or -2 if not implemented (yet). Is this meaningful if not an
       audio track?
     */
     track_flag_t (*get_track_copy_permit) ( void *p_env, track_t i_track );
@@ -355,7 +355,7 @@ extern "C" {
     bool (*get_track_msf) ( void *p_env, track_t i_track, msf_t *p_msf );
 
     /*! Return 1 if track has pre-emphasis, 0 if not, or -1 for error
-      or -2 if not implimented (yet). Is this meaningful if not an
+      or -2 if not implemented (yet). Is this meaningful if not an
       audio track?
     */
     track_flag_t (*get_track_preemphasis)
@@ -529,7 +529,7 @@ extern "C" {
      on a particular host. */
   extern CdIo_driver_t CdIo_driver[];
 
-  /* The last valid entry of Cdio_driver. -1 means uninitialzed. -2
+  /* The last valid entry of Cdio_driver. -1 means uninitialized. -2
      means some sort of error.
    */
   extern int CdIo_last_driver;
@@ -567,35 +567,35 @@ extern "C" {
   CdIo_t * cdio_open_am_netbsd (const char *psz_source,
                                 const char *psz_access_mode);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if AIX driver is available. */
   bool cdio_have_aix    (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if BSDI driver is available. */
   bool cdio_have_bsdi    (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if FreeBSD driver is available. */
   bool cdio_have_freebsd (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if GNU/Linux driver is available. */
   bool cdio_have_linux   (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if Sun Solaris driver is available. */
   bool cdio_have_solaris (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if IBM OS2 driver is available. */
   bool cdio_have_os2     (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if Apple OSX driver is available. */
   bool cdio_have_osx     (void);
 
-  /*! DEPRICATED: use cdio_have_driver().
+  /*! DEPRECATED: use cdio_have_driver().
     True if Microsoft Windows driver is available. */
   bool cdio_have_win32   (void);
 
