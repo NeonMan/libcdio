@@ -221,9 +221,9 @@ offset_to_lba(const udf_dirent_t *p_udf_dirent, off_t i_offset,
 }
 
 /**
-  Attempts to read up to count bytes from UDF directory entry
-  p_udf_dirent into the buffer starting at buf. buf should be a
-  multiple of UDF_BLOCKSIZE bytes. Reading continues after the point
+  Attempts to read up to count blocks from UDF directory entry
+  p_udf_dirent into the buffer starting at buf. buf must be large enough
+  to store count * UDF_BLOCKSIZE bytes. Reading continues after the point
   at which we last read or from the beginning the first time.
 
   If count is zero, read() returns zero and has no other results. If
@@ -232,8 +232,8 @@ offset_to_lba(const udf_dirent_t *p_udf_dirent, off_t i_offset,
   It is the caller's responsibility to ensure that count is less
   than the number of blocks recorded via p_udf_dirent.
 
-  If there is an error, cast the result to driver_return_code_t for
-  the specific error code.
+  On success, returns the number of bytes read. If there is an error,
+  cast the result to driver_return_code_t for the specific error code.
 */
 ssize_t
 udf_read_block(const udf_dirent_t *p_udf_dirent, void * buf, size_t count)
