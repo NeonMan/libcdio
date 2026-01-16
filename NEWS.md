@@ -23,7 +23,7 @@ Version 2.2.1.rc1
 * Add function `cdio_get_device_fd()` to retrieve a device file descriptor for when users need it in their own low-level code. In particular, this is needed for pregap detection on macOS. See https://github.com/libcdio/libcdio/ull/37. (UltraFuzzy)
 * Respect `FILE` name value inside BINCUE `CUE` file. See https://github.com/libcdio/libcdio/issues/30
 * Fix incorrect track length calculation for the last track. See https://github.com/libcdio/libcdio/pull/34. (Rodrigo Cox)
-* Fix buffer overrun for Joliet filenames. See https://github.com/libcdio/libcdio/pull/32 (Yuxin Wang)
+* Fix CVE-2024-36600: buffer overrun for Joliet filenames. See https://github.com/libcdio/libcdio/pull/32 (Yuxin Wang)
 * Code gone over with `codespell` to fix spelling corrections. Klaus-Hendrik Wolf also found some typos.
 * Add key `joliet-level` in cdio creation driver argument. See https://github.com/libcdio/libcdio/pull/28 (BrunoSX)
 * Adds function `udf_setpos()` to allow arbitrary reads of UDF files. Used by [wimlib](https://github.com/ebiggers/wimlib) (Pete Batard)
