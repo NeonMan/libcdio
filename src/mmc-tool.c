@@ -264,9 +264,9 @@ _log_handler (cdio_log_level_t level, const char message[])
 static void
 init(const char *argv0)
 {
+  const char *program_name2 = strrchr(argv0,'/');
+  program_name = program_name2 ? strdup(program_name2+1) : strdup(argv0);
   gl_default_cdio_log_handler = cdio_log_set_handler (_log_handler);
-  program_name = strrchr(argv0,'/');
-  program_name = program_name ? strdup(program_name+1) : strdup(argv0);
 }
 
 static void

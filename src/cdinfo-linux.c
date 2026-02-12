@@ -680,8 +680,8 @@ main(int argc, char *argv[])
   int fs=0;
   gl_default_log_handler = cdio_log_set_handler (_log_handler);
 
-  program_name = strrchr(argv[0],'/');
-  program_name = program_name ? program_name+1 : argv[0];
+  const char *program_name2 = strrchr(argv[0],'/');
+  program_name = program_name2 ? program_name2+1 : argv[0];
 
   /* Default option values. */
   opts.silent         = false;

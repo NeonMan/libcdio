@@ -311,8 +311,8 @@ parse_options (int argc, char *argv[])
     { NULL, 0, NULL, 0 }
   };
 
-  program_name = strrchr(argv[0],'/');
-  program_name = program_name ? strdup(program_name+1) : strdup(argv[0]);
+  const char *program_name2 = strrchr(argv[0],'/');
+  program_name = program_name2 ? strdup(program_name2+1) : strdup(argv[0]);
 
   while ((opt = getopt_long(argc, argv, optionsString, optionsTable, NULL)) >= 0)
     switch (opt)
