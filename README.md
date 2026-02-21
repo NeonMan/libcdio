@@ -9,9 +9,9 @@ _Note: See [README-libcdio.md](README-libcdio.md) for installation instructions.
 The libcdio package contains a library for CD-ROM and CD image access. Applications wishing to be oblivious of the OS- and
 device-dependent properties of a CD-ROM or of the specific details of various CD-image formats may benefit from using this library.
 
-A library for working with ISO-9660 filesystems, libiso9660, is
-included. A generic interface for issuing MMC (multimedia commands) is
-also part of the libcdio library.
+A library for working with ISO-9660 filesystems, libiso9660, is included. Another library works with the Universal Disk Format (UDF), an open, vendor-neutral file system designed for data portability across multiple operating systems, primarily used for optical media (DVDs, Blu-ray) and modern flash storage.
+
+A third library provided is a generic interface for issuing MMC (multimedia commands).
 
 The CD-DA error/jitter correction library from
 [cdparanoia](http://www.xiph.org/paranoia) is included as a separate
@@ -19,7 +19,7 @@ library licensed under GPL v2.
 
 Some support for disk image types like CDRWin's BIN/CUE format,
 cdrdao's TOC format, and Nero's NRG format is available. Therefore,
-applications that use this library also have the ability to read disc
+applications that use this library can also read disc
 images as though they were CDs.
 
 The library is written in C. There are OO C++, Perl, Python, and Ruby wrappers to interface to the library. However, C++ is the only
@@ -45,7 +45,7 @@ Also included in the libcdio package are several utility programs:
                 using libcdio back-end CD-reading.
 
 There is very limited low-level support for MMC commands on some
-platforms. Using MMC writing can be done. However,b there is currently
+platforms. Using MMC, writing can be done. However,b there is currently
 little higher level-support for writing. Other libraries like `libburn`,
 `libdi`, `libscg`, or `libdvdread` may be helpful.
 
