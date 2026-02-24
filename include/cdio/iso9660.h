@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2003-2008, 2012-2013, 2017, 2023-2024
+    Copyright (C) 2003-2008, 2012-2013, 2017, 2023-2024, 2026
                   Rocky Bernstein <rocky@gnu.org>
     Copyright (C) 2000 Herbert Valerio Riedel <hvr@gnu.org>
 
@@ -42,7 +42,7 @@
 
 /** \brief ISO 9660 Integer and Character types
 
-These are described in the section 7 of the ISO 9660 (or ECMA 119)
+These are described in Section 7 of the ISO 9660 (or ECMA 119)
 specification.
 */
 
@@ -74,11 +74,11 @@ typedef char     dchar_t;  /*! See section 7.4.1 */
 #define MIN_TRACK_SIZE 4*75
 #define MIN_ISO_SIZE MIN_TRACK_SIZE
 
-/*! The below isn't really an enumeration one would really use in a
-    program; things are done this way so that in a debugger one can to
-    refer to the enumeration value names such as in a debugger
-    expression and get something. With the more common a \#define
-    mechanism, the name/value association is lost at run time.
+/*! The following isn't really an enumeration one would really use in a
+    program; things are done this way so that in a debugger, one can
+    refer to the enumeration value names, such as in a debugger
+    expression and get something. With the more common \#define
+    mechanism, the name/value association is lost at runtime.
   */
 extern enum iso_enum1_s {
   ISO_PVD_SECTOR      =   16, /**< Sector of Primary Volume Descriptor. */
@@ -98,8 +98,8 @@ extern enum iso_enum1_s {
 } iso_enums1;
 
 /*! An enumeration for some of the ISO_* \#defines below. This isn't
-    really an enumeration one would really use in a program it is here
-    to be helpful in debuggers where wants just to refer to the
+    really an enumeration one would really use in a program, it is here
+    to be helpful in debuggers, where you just have to refer to the
     ISO_*_ names and get something.
   */
 
@@ -201,7 +201,7 @@ typedef struct iso9660_dtime_s  iso9660_dtime_t;
   \brief ISO-9660 longer-format time structure.
 
   Section 8.4.26.1 of ECMA 119. All values are encoded as character
-  arrays, eg. '1', '9', '5', '5' for the year 1955 (no null terminated
+  arrays, e.g. '1', '9', '5', '5' for the year 1955 (no null-terminated
   byte).
 
   @see iso9660_ltime
@@ -238,7 +238,7 @@ typedef struct iso9660_stat_s   iso9660_stat_t;
  Section 9.1 of ECMA 119.
 
  This structure may have an odd length depending on how many
- characters there are in the filename!  Some compilers (e.g. on
+ characters there are in the filename!  Some compilers (e.g., on
  Sun3/mc68020) pad the structures to an even length.  For this reason,
  we cannot use sizeof (struct iso_path_table) or sizeof (struct
  iso_directory_record) to compute on disk sizes.  Instead, we use
@@ -549,10 +549,10 @@ struct iso9660_stat_s { /* big endian!! */
 
   /* Multi-extent aware size, in bytes.
 
-     It is guaranteed that the bytes are stored as gapless string in a
+     It is guaranteed that the bytes are stored as a gapless string in a
      contiguous sequence of blocks. I.e. they can be read sequentially
      starting at iso9660_stat_s.lsn.
-     Data files which do not fulfil this promise cause a warning message
+     Data files that do not fulfil this promise cause a warning message
      and are not represented by this type of struct.
      (Directories are not allowed to have more than one extent and thus cannot
       legally break the promise.)
@@ -623,7 +623,7 @@ typedef struct _iso9660_s iso9660_t;
   iso9660_t *iso9660_open (const char *psz_path /*flags, mode */);
 
   /*!
-    Open an ISO 9660 image for reading allowing various ISO 9660
+    Open an ISO 9660 image for reading, allowing various ISO 9660
     extensions.  Maybe in the future we will have a mode. NULL is
     returned on error.
 
@@ -633,12 +633,12 @@ typedef struct _iso9660_s iso9660_t;
                                iso_extension_mask_t iso_extension_mask);
 
   /*! Open an ISO 9660 image for "fuzzy" reading. This means that we
-    will try to guess various internal offset based on internal
+    will try to guess various internal offsets based on internal
     checks. This may be useful when trying to read an ISO 9660 image
     contained in a file format that libiso9660 doesn't know natively
     (or knows imperfectly.)
 
-    Some tolerance allowed for positioning the ISO 9660 image. We scan
+    Some tolerance is allowed for positioning the ISO 9660 image. We scan
     for STANDARD_ID and use that to set the eventual offset to adjust
     by (as long as that is <= i_fuzz).
 
@@ -679,7 +679,7 @@ typedef struct _iso9660_s iso9660_t;
     @param p_iso the ISO-9660 file image to get data from
 
     @param ptr place to put returned data. It should be able to store
-    a least i_size bytes
+    at least i_size bytes
 
     @param start location to start reading from
 
@@ -782,20 +782,20 @@ typedef struct _iso9660_s iso9660_t;
   /*!
     Return true if c is a DCHAR - a character that can appear in an an
     ISO-9600 level 1 directory name. These are the ASCII capital
-    letters A-Z, the digits 0-9 and an underscore.
+    letters A-Z, the digits 0-9, and an underscore.
   */
   bool iso9660_is_dchar (int c);
 
   /*!
     Return true if c is an ACHAR -
-    These are the DCHAR's plus some ASCII symbols including the space
+    These are the DCHAR's plus some ASCII symbols, including the space
     symbol.
   */
   bool iso9660_is_achar (int c);
 
   /*!
-    Convert an ISO-9660 file name which is in the format usually stored
-    in a ISO 9660 directory entry into what's usually listed as the
+    Convert an ISO-9660 file name, which is in the format usually stored
+    in an ISO 9660 directory entry, into what's usually listed as the
     file name in a listing.  Lowercase name, and remove trailing ;1's
     or .;1's and turn the other ;'s into version numbers.
 
@@ -808,14 +808,14 @@ typedef struct _iso9660_s iso9660_t;
                              /*out*/ char *psz_newname);
 
   /*!
-    Convert an ISO-9660 file name which is in the format usually stored
-    in a ISO 9660 directory entry into what's usually listed as the
+    Convert an ISO-9660 file name, which is in the format usually stored
+    in an ISO 9660 directory entry into what's usually listed as the
     file name in a listing.  Lowercase name if no Joliet Extension
     interpretation. Remove trailing ;1's or .;1's and turn the other
     ;'s into version numbers.
 
     @param psz_oldname the ISO-9660 filename to be translated.
-    @param psz_newname returned string. The caller allocates this and
+    @param psz_newname returned string. The caller allocates this, and
     it should be at least the size of psz_oldname.
     @param i_joliet_level 0 if not using Joliet Extension. Otherwise the
     Joliet level.
@@ -924,12 +924,12 @@ iso9660_stat_t *iso9660_find_fs_lsn(CdIo_t *p_cdio, lsn_t i_lsn);
    @param i_lsn the LSN to find
 
    @param ppsz_full_filename the place to store the name of the path that has LSN.
-   On entry this should point to NULL. If not, the value will be freed.
-   On exit a value is malloc'd and the caller is responsible for
+   On entry, this should point to NULL. If not, the value will be freed.
+   On exit, a value is malloc',d and the caller is responsible for
    freeing the result.
 
    @return stat_t of entry if we found lsn, or NULL otherwise.
-   Caller must free return value using iso9660_stat_free().
+   The caller must free the return value using iso9660_stat_free().
  */
 iso9660_stat_t *iso9660_fs_find_lsn_with_path(CdIo_t *p_cdio, lsn_t i_lsn,
                                               /*out*/ char **ppsz_full_filename);
@@ -943,7 +943,7 @@ iso9660_stat_t *iso9660_fs_find_lsn_with_path(CdIo_t *p_cdio, lsn_t i_lsn,
    @param i_lsn the LSN to find
 
    @return stat_t of entry if we found lsn, or NULL otherwise.
-   Caller must free return value using iso9660_stat_free().
+   The caller must free the return value using iso9660_stat_free().
  */
 iso9660_stat_t *iso9660_ifs_find_lsn(iso9660_t *p_iso, lsn_t i_lsn);
 
@@ -957,12 +957,12 @@ iso9660_stat_t *iso9660_ifs_find_lsn(iso9660_t *p_iso, lsn_t i_lsn);
    @param i_lsn LSN to find
 
    @param ppsz_path  full path of lsn filename. On entry *ppsz_path should be
-   NULL. On return it will be allocated an point to the full path of the
+   NULL. On return, it will be allocated a point to the full path of the
    file at lsn or NULL if the lsn is not found. You should deallocate
    *ppsz_path when you are done using it.
 
    @return stat_t of entry if we found lsn, or NULL otherwise.
-   Caller must free return value using iso9660_stat_free().
+   The caller must free the return value using iso9660_stat_free().
  */
 iso9660_stat_t *iso9660_ifs_find_lsn_with_path(iso9660_t *p_iso,
                                                lsn_t i_lsn,
@@ -992,8 +992,8 @@ void iso9660_stat_free(iso9660_stat_t *p_stat);
   You make get different results looking up "/" versus "/." and the
   latter may give more complete information. "/" will take information
   from the PVD only, whereas "/." will force a directory read of "/" and
-  find "." and in that Rock-Ridge information might be found which fills
-  in more stat information. Ideally iso9660_fs_stat should be fixed.
+  find "." and in that Rock-Ridge information might be found, which fills
+  in more stat information. Ideally, iso9660_fs_stat should be fixed.
   Patches anyone?
  */
 iso9660_stat_t *iso9660_fs_stat (CdIo_t *p_cdio, const char psz_path[]);
@@ -1079,7 +1079,7 @@ void iso9660_dirlist_free(CdioISO9660DirList_t *p_filelist);
 
   @param p_cdio the CD object to read from
 
-  @param psz_path path the read the directory from.
+  @param psz_path path to read the directory from.
 
   @return file status for psz_path. The caller must free the
   The caller must free the returned result using iso9660_stat_free().
@@ -1092,7 +1092,7 @@ CdioList_t * iso9660_fs_readdir (CdIo_t *p_cdio, const char psz_path[]);
 
   @param p_iso the ISO-9660 file image to get data from
 
-  @param psz_path path the read the directory from.
+  @param psz_path path to read the directory from.
 
   @return file status for psz_path. The caller must free the
   The caller must free the returned result using iso9660_stat_free().
@@ -1105,8 +1105,8 @@ CdioList_t * iso9660_ifs_readdir (iso9660_t *p_iso, const char psz_path[]);
   @param p_pvd the PVD to get data from
 
   @return  the application id.
-  NULL is returned if there is some problem in getting this.
-  The caller must free the resturned result using free() if
+  NULL is returned if there is a problem in getting this.
+  The caller must free the returned result using free() if
   not null.
 */
 char * iso9660_get_application_id(iso9660_pvd_t *p_pvd);
@@ -1118,8 +1118,8 @@ char * iso9660_get_application_id(iso9660_pvd_t *p_pvd);
 
   @param p_psz_app_id the application id set on success.
 
-  NULL is returned if there is some problem in getting this.
-  The caller must free the resturned result using free() if
+  NULL is returned if there is a problem in getting this.
+  The caller must free the returned result using free() if
   not null.
 */
 bool iso9660_ifs_get_application_id(iso9660_t *p_iso,
@@ -1214,39 +1214,39 @@ lsn_t iso9660_get_dir_extent(const iso9660_dir_t *p_idr);
 
   /*!
     Get the system ID.  psz_system_id is set to NULL if there
-    is some problem in getting this and false is returned.
+    is some problem in getting this, and false is returned.
   */
   bool iso9660_ifs_get_system_id(iso9660_t *p_iso,
                                  /*out*/ cdio_utf8_t **p_psz_system_id);
 
 
   /*! Return the LSN of the root directory for pvd.
-    If there is an error CDIO_INVALID_LSN is returned.
+    If there is an error, CDIO_INVALID_LSN is returned.
   */
   lsn_t iso9660_get_root_lsn(const iso9660_pvd_t *p_pvd);
 
   /*!
     Get the volume ID in the PVD.  psz_volume_id is set to NULL if there
-    is some problem in getting this and false is returned.
+    is some problem in getting this, and false is returned.
   */
   char *iso9660_get_volume_id(const iso9660_pvd_t *p_pvd);
 
   /*!
     Get the volume ID in the PVD.  psz_volume_id is set to NULL if there
-    is some problem in getting this and false is returned.
+    is some problem in getting this, and false is returned.
   */
   bool iso9660_ifs_get_volume_id(iso9660_t *p_iso,
                                  /*out*/ cdio_utf8_t **p_psz_volume_id);
 
   /*!
     Return the volumeset ID in the PVD.
-    NULL is returned if there is some problem in getting this.
+    NULL is returned if there is a problem in getting this.
   */
   char *iso9660_get_volumeset_id(const iso9660_pvd_t *p_pvd);
 
   /*!
     Get the volumeset ID.  psz_systemset_id is set to NULL if there
-    is some problem in getting this and false is returned.
+    is some problem in getting this, and false is returned.
   */
   bool iso9660_ifs_get_volumeset_id(iso9660_t *p_iso,
                                     /*out*/ cdio_utf8_t **p_psz_volumeset_id);
@@ -1279,7 +1279,7 @@ lsn_t iso9660_get_dir_extent(const iso9660_dir_t *p_idr);
   void iso9660_set_evd (void *pd);
 
   /*!
-    Return true if ISO 9660 image has extended attributes (XA).
+    Return true if the ISO 9660 image has extended attributes (XA).
   */
   bool iso9660_ifs_is_xa (const iso9660_t * p_iso);
 
