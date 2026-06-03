@@ -5,12 +5,10 @@ about: Tell us about libcdio bugs
 ---
 
 <!--
-Bugs are also not for general or novice kind help on how to
-build open-source software.
+Bugs are not for general or novice-level help on how to build open-source software.
 
 For these kinds of things, you will save yourself time by asking
-instead on forums like StackOverflow that are geared to helping people
-for such general or novice kinds questions and tasks.
+instead on forums like StackOverflow or AI, that are geared to helping people for general questions and tasks.
 
 To set expectations, some legitimate bugs can take years to fix, but
 they eventually do get fixed.
@@ -34,8 +32,8 @@ such an image.
 ## Output Given
 
 <!--
-Please include not just the error message but all output leading to the message which includes echoing input and messages up to the error.
-For a command-line environment include command invocation and all the output produced.
+Please include not just the error message but all output leading to the message, which includes echoing input and messages up to the error.
+For a command-line environment, include command invocation and all the output produced.
 
 If this is too long, then try narrowing the problem to something short.
 -->
@@ -61,8 +59,8 @@ Please modify for your setup
 
 ## Priority
 
-<!-- If this is important for a particular public good state that here.
-     If this is blocking some important activity let us know what activity it blocks.
+<!-- If this is important for a particular public good, state that here.
+     If this is blocking some important activity, let us know what activity it blocks.
 
 	 Otherwise, we'll assume this has the lowest priority in addressing.
 	 -->
