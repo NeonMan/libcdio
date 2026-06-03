@@ -8,9 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup
-        run: brew install automake libtool help2man texinfo
+        run: brew install automake libtool help2man texinfo libiconv
       - name: Build
         run: |
+          export LDFLAGS="-L/opt/homebrew/opt/libiconv/lib"
+          export CPPFLAGS="-I/opt/homebrew/opt/libiconv/include"
           ./autogen.sh
           make -j4
       - name: Test
