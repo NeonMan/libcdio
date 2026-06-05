@@ -18,7 +18,7 @@ dnl along with this program.  If not, see <http://www.gnu.org/licenses/>.
 define(RELEASE_NUM, 2.3.0)
 define(CDIO_VERSION_STR, $1)
 
-AC_PREREQ([2.71])
+AC_PREREQ([2.69])
 
 AC_INIT([libcdio],[CDIO_VERSION_STR(RELEASE_NUM)],[https://savannah.gnu.org/bugs/?group=libcdio])
 AC_CONFIG_SRCDIR(src/cd-info.c)
@@ -204,7 +204,7 @@ AC_DEFINE(LIBCDIO_CONFIG_H, 1,
 
 dnl headers
 
-AC_CHECK_INCLUDES_DEFAULT
+AC_INCLUDES_DEFAULT
 AC_PROG_EGREP
 
 AC_CHECK_HEADERS(stdbool.h, [], [AC_MSG_ERROR(["Couldn't find or include stdbool.h"])])
