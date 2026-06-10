@@ -118,9 +118,8 @@ iso9660_get_xa_attr_str (uint16_t xa_attr)
   result[ 7] = (xa_attr & XA_PERM_XGRP) ? 'x' : '-';
   result[ 8] = (xa_attr & XA_PERM_RGRP) ? 'r' : '-';
 
-  /* Hack alert: wonder if this should be ROTH and XOTH? */
-  result[ 9] = (xa_attr & XA_PERM_XSYS) ? 'x' : '-';
-  result[10] = (xa_attr & XA_PERM_RSYS) ? 'r' : '-';
+  result[ 9] = (xa_attr & XA_PERM_XOTH) ? 'x' : '-';
+  result[10] = (xa_attr & XA_PERM_ROTH) ? 'r' : '-';
 
   result[11] = '\0';
 
