@@ -311,6 +311,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
   /* The below declaration(s) may be unique to this image-parse routine. */
   unsigned int i_cdtext_nest = 0;
+  char *saveptr;
 
   if (NULL == psz_cue_name)
     return false;
@@ -341,11 +342,12 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
     if ((psz_field = strstr (psz_line, "//")))
       *psz_field = '\0';
 
-    if ((psz_keyword = strtok (psz_line, " \t\n\r"))) {
+    saveptr = NULL;
+    if ((psz_keyword = strtok_r(psz_line, " \t\n\r", &saveptr))) {
       /* CATALOG "ddddddddddddd" */
       if (0 == strcmp ("CATALOG", psz_keyword)) {
 	if (-1 == i_track) {
-	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, "\"\t\n\r", &saveptr))) {
 	    if (13 != strlen(psz_field)) {
 	      cdio_log(log_level,
 		       "%s line %d after word CATALOG:",
@@ -418,7 +420,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	}
 	i_track++;
-	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	  if (0 == strcmp ("AUDIO", psz_field)) {
 	    if (NULL != cd) {
 	      cd->tocent[i_track].track_format = TRACK_FORMAT_AUDIO;
@@ -628,7 +630,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    goto err_exit;
 	  }
 	}
-	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	  /* \todo: set sub-channel-mode */
 #ifdef TODO
 	  if (0 == strcmp ("RW", psz_field))
@@ -637,14 +639,14 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    ;
 #endif
 	}
-	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	  goto format_error;
 	}
 
 	/* track flags */
 	/* [NO] COPY | [NO] PRE_EMPHASIS */
       } else if (0 == strcmp ("NO", psz_keyword)) {
-	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	  if (0 == strcmp ("COPY", psz_field)) {
 	    if (NULL != cd)
 	      cd->tocent[i_track].flags &= ~CDIO_TRACK_FLAG_COPY_PERMITTED;
@@ -656,7 +658,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	} else {
 	  goto format_error;
 	}
-	if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	  goto format_error;
 	}
       } else if (0 == strcmp ("COPY", psz_keyword)) {
@@ -676,7 +678,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* ISRC "CCOOOYYSSSSS" */
       } else if (0 == strcmp ("ISRC", psz_keyword)) {
-	if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
+	if (NULL != (psz_field = strtok_r(NULL, "\"\t\n\r", &saveptr))) {
 	  if (NULL != cd)
 	    cd->tocent[i_track].isrc = strdup(psz_field);
 	} else {
@@ -685,7 +687,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 
 	/* SILENCE <length> */
       } else if (0 == strcmp ("SILENCE", psz_keyword)) {
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+        if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	      if (NULL != cd)
 		  cd->tocent[i_track].silence = cdio_mmssff_to_lba (psz_field);
 	  } else {
@@ -702,7 +704,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
       } else if (0 == strcmp ("FILE", psz_keyword)
 		 || 0 == strcmp ("AUDIOFILE", psz_keyword)) {
 	if (0 <= i_track) {
-	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, "\"\t\n\r", &saveptr))) {
 	    /* Handle "<filename>" */
 	    if (cd) {
 	      char *psz_dirname = cdio_dirname(psz_cue_name);
@@ -730,7 +732,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  }
 
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    /* Handle <start-msf> */
 	    lba_t i_start_lba =
 	      cdio_lsn_to_lba(cdio_mmssff_to_lba (psz_field));
@@ -745,7 +747,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	      cdio_lba_to_msf(i_start_lba, &(cd->tocent[i_track].start_msf));
 	    }
 	  }
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    /* Handle <length-msf> */
 	    lba_t lba = cdio_mmssff_to_lba (psz_field);
 	    if (CDIO_INVALID_LBA == lba) {
@@ -768,7 +770,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	      cd->tocent[i_track].sec_count = lba;
 	    }
 	  }
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    goto format_error;
 	  }
 	} else {
@@ -778,7 +780,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	/* DATAFILE "<filename>" #byte-offset <start-msf> */
       } else if (0 == strcmp ("DATAFILE", psz_keyword)) {
 	if (0 <= i_track) {
-	  if (NULL != (psz_field = strtok (NULL, "\"\t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, "\"\t\n\r", &saveptr))) {
 	    /* Handle <filename> */
 	    char *psz_dirname = cdio_dirname(psz_cue_name);
 	    char *psz_filename = cdio_abspath(psz_dirname, psz_field);
@@ -809,7 +811,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    free(psz_dirname);
 	  }
 
-	  psz_field = strtok (NULL, " \t\n\r");
+	  psz_field = strtok_r(NULL, " \t\n\r", &saveptr);
 	  if (psz_field) {
 	    /* Handle optional #byte-offset */
 	    if ( psz_field[0] == '#') {
@@ -828,7 +830,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 		  cd->tocent[i_track].offset = offset;
 		}
 	      }
-	      psz_field = strtok (NULL, " \t\n\r");
+	      psz_field = strtok_r(NULL, " \t\n\r", &saveptr);
 	    }
 	  }
 	  if (psz_field) {
@@ -876,7 +878,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	/* START MM:SS:FF */
       } else if (0 == strcmp ("START", psz_keyword)) {
 	if (0 <= i_track) {
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    /* todo: line is too long! */
 	    if (NULL != cd) {
 	      cd->tocent[i_track].pregap = cd->tocent[i_track].start_lba;
@@ -887,7 +889,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	    }
 	  }
 
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    goto format_error;
 	  }
 	} else {
@@ -897,13 +899,13 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	/* PREGAP MM:SS:FF */
       } else if (0 == strcmp ("PREGAP", psz_keyword)) {
 	if (0 <= i_track) {
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    if (NULL != cd)
 	      cd->tocent[i_track].pregap = cdio_mmssff_to_lba (psz_field);
 	  } else {
 	    goto format_error;
 	  }
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    goto format_error;
 	  }
 	} else {
@@ -913,7 +915,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	  /* INDEX MM:SS:FF */
       } else if (0 == strcmp ("INDEX", psz_keyword)) {
 	if (0 <= i_track) {
-	  if (NULL != (psz_field = strtok (NULL, " \t\n\r"))) {
+	  if (NULL != (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
 	    if (NULL != cd) {
 #if 0
 	      if (1 == cd->tocent[i_track+1].nindex) {
@@ -930,7 +932,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
 	  } else {
 	    goto format_error;
 	  }
-	  if (NULL != strtok (NULL, " \t\n\r")) {
+	  if (NULL != strtok_r(NULL, " \t\n\r", &saveptr)) {
 	    goto format_error;
 	  }
 	}  else {
@@ -940,7 +942,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
   /* CD_TEXT { ... } */
   /* todo: opening { must be on same line as CD_TEXT */
       } else if (0 == strcmp ("CD_TEXT", psz_keyword)) {
-        if (NULL == (psz_field = strtok (NULL, " \t\n\r"))) {
+        if (NULL == (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
           goto format_error;
         }
         if ( 0 == strcmp( "{", psz_field ) ) {
@@ -956,7 +958,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
         /* LANGUAGE d { ... } */
       } else if (0 == strcmp ("LANGUAGE", psz_keyword)) {
         /* Language number */
-        if (NULL == (psz_field = strtok (NULL, " \t\n\r"))) {
+        if (NULL == (psz_field = strtok_r(NULL, " \t\n\r", &saveptr))) {
           goto format_error;
         }
         if ( 0 == strcmp( "{", psz_field ) ) {
@@ -974,7 +976,7 @@ parse_tocfile (_img_private_t *cd, const char *psz_cue_name)
             /* until language mapping is implemented ...*/
             cd->gen.cdtext->block[cd->gen.cdtext->block_i].language_code = CDTEXT_LANGUAGE_ENGLISH;
           }
-          cdtext_set (cd->gen.cdtext, cdtext_key, (uint8_t*) strtok (NULL, "\"\t\n\r"),
+          cdtext_set (cd->gen.cdtext, cdtext_key, (uint8_t*) strtok_r(NULL, "\"\t\n\r", &saveptr),
               (-1 == i_track ? 0 : cd->gen.i_first_track + i_track),
               "ISO-8859-1");
         }

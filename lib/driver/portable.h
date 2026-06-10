@@ -59,4 +59,12 @@
 # define THREAD_LOCAL
 #endif
 
+#if !defined(HAVE_STRTOK_R)
+# if defined(_MSC_VER)
+#  define strtok_r(s, delim, saveptr)  strtok_s((s), (delim), (saveptr))
+# else
+# define strtok_r(s, delim, saveptr) ((void)(saveptr), strtok((s), (delim)))
+# endif
+#endif /* HAVE_STRTOK_R */
+
 #endif /* CDIO_DRIVER_PORTABLE_H_ */
