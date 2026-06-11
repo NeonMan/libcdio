@@ -41,20 +41,24 @@ extern "C" {
     really an enumeration one would really use in a program it is to
     be helpful in debuggers where wants just to refer to the XA_*
     names and get something.
+    Source: https://psx-spx.consoledev.net/cdromformat/#format-of-a-directory-record
   */
   typedef enum {
     ISO_XA_MARKER_OFFSET =   1024,
-    XA_PERM_RSYS =         0x0001,  /**< System Group Read */
-    XA_PERM_XSYS =         0x0004,  /**< System Group Execute */
 
-    XA_PERM_RUSR =         0x0010,  /**< User (owner) Read */
-    XA_PERM_XUSR =         0x0040,  /**< User (owner) Execute */
+  /* The SYS variants are retained for backwards compatibility. They
+    have the same values as USR */
+    XA_PERM_RSYS        =   (1 << 0),  /**< Same as User (owner) Read */
+    XA_PERM_XSYS        =   (1 << 2),  /**< Same as User (owner) Execute */
 
-    XA_PERM_RGRP =         0x0100,  /**< Group Read */
-    XA_PERM_XGRP =         0x0400,  /**< Group Execute */
+    XA_PERM_RUSR        =   (1 << 0),  /**< User (owner) Read */
+    XA_PERM_XUSR        =   (1 << 2),  /**< User (owner) Execute */
 
-    XA_PERM_ROTH =         0x1000,  /**< Other (world) Read */
-    XA_PERM_XOTH =         0x4000,  /**< Other (world) Execute */
+    XA_PERM_RGRP        =   (1 << 4),  /**< Group Read */
+    XA_PERM_XGRP        =   (1 << 6),  /**< Group Execute */
+
+    XA_PERM_ROTH        =   (1 << 8),  /**< Other (world) Read */
+    XA_PERM_XOTH        =   (1 << 10),  /**< Other (world) Execute */
 
     XA_ATTR_MODE2FORM1  =   (1 << 11),
     XA_ATTR_MODE2FORM2  =   (1 << 12),
@@ -62,8 +66,8 @@ extern "C" {
     XA_ATTR_CDDA        =   (1 << 14),
     XA_ATTR_DIRECTORY   =   (1 << 15),
 
-    XA_PERM_ALL_READ    =   (XA_PERM_RUSR | XA_PERM_RSYS | XA_PERM_RGRP),
-    XA_PERM_ALL_EXEC    =   (XA_PERM_XUSR | XA_PERM_XSYS | XA_PERM_XGRP),
+    XA_PERM_ALL_READ    =   (XA_PERM_RUSR | XA_PERM_RGRP | XA_PERM_ROTH),
+    XA_PERM_ALL_EXEC    =   (XA_PERM_XUSR | XA_PERM_XGRP | XA_PERM_XOTH),
     XA_PERM_ALL_ALL     =   (XA_PERM_ALL_READ | XA_PERM_ALL_EXEC),
 
     XA_FORM1_DIR  = (XA_ATTR_DIRECTORY | XA_ATTR_MODE2FORM1 | XA_PERM_ALL_ALL),

@@ -33,6 +33,13 @@
 #endif
 
 #include <cdio/iso9660.h>
+#include <cdio/bytesex.h>
+
+#define ISO_XA_FILE "./data/xa.iso"
+#define ISO_XA_FILE_ENTRY_FOO "FOO.;1"
+#define ISO_XA_FILE_ENTRY_FOO_ATTR "----1xrxrx-"
+#define ISO_XA_FILE_ENTRY_FOO_MODE 0551
+
 
 static bool
 time_compare(struct tm *p_tm1, struct tm *p_tm2)
@@ -391,6 +398,61 @@ main (int argc, const char *argv[])
       free(saved_env_tz);
     }
 #endif
+  }
+
+  /*********************************************
+   * Test XA file attributes
+   *********************************************/
+  {
+    CdioISO9660FileList_t *entries;
+    CdioListNode_t *entry;
+    iso9660_t *iso;
+    posix_mode_t mode;
+    bool found = false;
+    iso9660_stat_t *stat;
+    const char *xa_attr;
+
+    iso = iso9660_open(ISO_XA_FILE);
+    entries = iso9660_ifs_readdir(iso, "/");
+
+    _CDIO_LIST_FOREACH(entry, entries)
+      {
+        stat = _cdio_list_node_data(entry);
+        printf("file: %s \n", stat->filename);
+        if (0 != strcmp(stat->filename, ISO_XA_FILE_ENTRY_FOO))
+          continue;
+
+        found = true;
+
+        xa_attr = iso9660_get_xa_attr_str(stat->xa.attributes);
+        if (0 != strcmp(xa_attr, ISO_XA_FILE_ENTRY_FOO_ATTR))
+          {
+            printf("got incorrect attr from iso9660_get_xa_attr_str() \n");
+            printf("Expected: %s \n", ISO_XA_FILE_ENTRY_FOO_ATTR);
+            printf("Got: %s \n", xa_attr);
+            return 53;
+          }
+
+        mode = iso9660_get_posix_filemode_from_xa(uint16_from_be(stat->xa.attributes));
+        if (ISO_XA_FILE_ENTRY_FOO_MODE != mode)
+          {
+            printf("got incorrect mode from iso9660_get_posix_filemode_from_xa() \n");
+            printf("Expected: %o \n", ISO_XA_FILE_ENTRY_FOO_MODE);
+            printf("Got: %o \n", mode);
+            return 54;
+          }
+      }
+
+    if (!found)
+      {
+        printf("could not find entry file %s in %s",
+               ISO_XA_FILE_ENTRY_FOO,
+               ISO_XA_FILE);
+        return 55;
+      }
+
+    iso9660_filelist_free(entries);
+    iso9660_close(iso);
   }
 
   return 0;
