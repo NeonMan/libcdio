@@ -70,19 +70,37 @@ main(int argc, const char *argv[])
     mmc_cdb_t cdb = {{0, }};   /* Command Descriptor Buffer */
     int i;
 
-    CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DVD_STRUCTURE);
+    CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DISC_STRUCTURE);
     CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
 
-    for (i=0; i<=16; i++) {
-	cdb.field[7] = i; /* The format field */
-	i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
-			       sizeof(buf), &buf);
-	if (i_status == 0) {
-	    hexdump(stdout, buf, 200);
-	    printf("============================================\n");
-	} else {
-	    printf("Didn't get DVD Structure.\n");
-	}
+    // Issue READ DISC STRUCTURE for media type 0 (DVD) for formats specified as mandatory on MMC spec 6.23.1
+    static const uint8_t dvd_format_codes[] = {0, 1, 2, 3, 4, 5, 13, 0x0f, 0x20, 0x30, 0xff};
+    for (i=dvd_format_codes[0]; i<sizeof(dvd_format_codes); i++) {
+        printf("== DVD %02Xh =====================================\n", dvd_format_codes[i]);
+        cdb.field[7] = dvd_format_codes[i]; /* The format field */
+        i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
+                    sizeof(buf), &buf);
+        if (i_status == 0) {
+            hexdump(stdout, buf, 200);
+        } else {
+            printf("Didn't get DVD Structure.\n");
+        }
+    }
+
+    
+    // Issue READ DISC STRUCTURE for media type 1 (BD) for formats specified as mandatory on MMC spec 6.23.1
+    static const uint8_t bd_format_codes[] = {0x00, 0x30, 0xFF};
+    cdb.field[1] = 0x01; /* Media type (BD) */
+    for (i=bd_format_codes[0]; i<sizeof(bd_format_codes); i++) {
+        printf("== BD %02Xh ======================================\n", bd_format_codes[i]);
+        cdb.field[7] = bd_format_codes[i]; /* The format field */
+        i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
+                    sizeof(buf), &buf);
+        if (i_status == 0) {
+            hexdump(stdout, buf, 200);
+        } else {
+            printf("Didn't get BD Structure.\n");
+        }
     }
   }
 

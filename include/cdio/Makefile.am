@@ -28,6 +28,7 @@ cdio_config.h: $(top_builddir)/config.h
 libcdioincludedir=$(includedir)/cdio
 dist_libcdioinclude_HEADERS = \
 	audio.h \
+	bd.h \
 	bytesex.h \
 	bytesex_asm.h \
 	cdio.h \
