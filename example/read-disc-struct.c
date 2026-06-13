@@ -25,6 +25,8 @@
 #include <cdio/cdio.h>
 #include <cdio/mmc.h>
 
+#define BUFF_LEN (32768 + 1) /* 32K + 1*/
+
 static void
 hexdump (FILE *stream,  uint8_t * buffer, unsigned int len)
 {
@@ -49,6 +51,20 @@ hexdump (FILE *stream,  uint8_t * buffer, unsigned int len)
     fflush (stream);
 }
 
+static int
+get_disc_structure_data_len(const uint8_t *buff){
+    int rv = (buff[0] * 256) + buff[1] + 2;
+    if (rv > BUFF_LEN){
+        printf("Size %dB (%04Xh) -- Warning! Clipped to %dB\n", rv, rv, BUFF_LEN);
+        rv = BUFF_LEN;
+    }
+    else{
+        printf("Size %dB (%04Xh)\n", rv, rv);
+    }
+
+    return rv;
+}
+
 int
 main(int argc, const char *argv[])
 {
@@ -65,9 +81,9 @@ main(int argc, const char *argv[])
     printf("Couldn't find DVD\n");
     return 77;
   } else {
-    int i_status;              /* Result of MMC command */
-    uint8_t buf[200] = { 0, }; /* Place to hold returned data */
-    mmc_cdb_t cdb = {{0, }};   /* Command Descriptor Buffer */
+    int i_status;                /* Result of MMC command */
+    uint8_t buf[BUFF_LEN] = { 0, }; /* Place to hold returned data */
+    mmc_cdb_t cdb = {{0, }};     /* Command Descriptor Buffer */
     int i;
 
     CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DISC_STRUCTURE);
@@ -76,28 +92,30 @@ main(int argc, const char *argv[])
     // Issue READ DISC STRUCTURE for media type 0 (DVD) for formats specified as mandatory on MMC spec 6.23.1
     static const uint8_t dvd_format_codes[] = {0, 1, 2, 3, 4, 5, 13, 0x0f, 0x20, 0x30, 0xff};
     for (i=dvd_format_codes[0]; i<sizeof(dvd_format_codes); i++) {
+        memset(buf, 0x55, BUFF_LEN); /* Make unwritten bytes easy to spot */
         printf("== DVD %02Xh =====================================\n", dvd_format_codes[i]);
         cdb.field[7] = dvd_format_codes[i]; /* The format field */
         i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
                     sizeof(buf), &buf);
         if (i_status == 0) {
-            hexdump(stdout, buf, 200);
+            hexdump(stdout, buf, get_disc_structure_data_len(buf));
         } else {
             printf("Didn't get DVD Structure.\n");
         }
     }
 
     
-    // Issue READ DISC STRUCTURE for media type 1 (BD) for formats specified as mandatory on MMC spec 6.23.1
-    static const uint8_t bd_format_codes[] = {0x00, 0x30, 0xFF};
+    // Issue READ DISC STRUCTURE for media type 1 (BD) for formats specified on MMC 6.23.3.3
+    static const uint8_t bd_format_codes[] = {0x00, 0x08, 0x09, 0x0A, 0x30, 0xFF};
     cdb.field[1] = 0x01; /* Media type (BD) */
     for (i=bd_format_codes[0]; i<sizeof(bd_format_codes); i++) {
+        memset(buf, 0x55, BUFF_LEN); /* Make unwritten bytes easy to spot */
         printf("== BD %02Xh ======================================\n", bd_format_codes[i]);
         cdb.field[7] = bd_format_codes[i]; /* The format field */
         i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
                     sizeof(buf), &buf);
         if (i_status == 0) {
-            hexdump(stdout, buf, 200);
+            hexdump(stdout, buf, get_disc_structure_data_len(buf));
         } else {
             printf("Didn't get BD Structure.\n");
         }
