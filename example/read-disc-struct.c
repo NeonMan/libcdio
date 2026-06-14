@@ -87,6 +87,7 @@ main(int argc, const char *argv[])
     int i;
 
     CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DISC_STRUCTURE);
+
     CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
 
     // Issue READ DISC STRUCTURE for media type 0 (DVD) for formats specified as mandatory on MMC spec 6.23.1
@@ -119,6 +120,22 @@ main(int argc, const char *argv[])
         } else {
             printf("Didn't get BD Structure.\n");
         }
+    }
+
+    //Poll the 0x30 format code with PAC ID and format number set to FF
+    //It should enumerate all the PAC headers this drive supports
+    CDIO_MMC_BD_SET_PAC_ID(cdb.field, 0xFFFFFF);
+    CDIO_MMC_BD_SET_PAC_NUMBER(cdb.field, 0xFF);
+    cdb.field[7] = 0x30;
+
+    memset(buf, 0x55, BUFF_LEN); /* Make unwritten bytes easy to spot */
+    printf("== BD %02Xh ======================================\n", cdb.field[7]);
+    i_status = mmc_run_cmd(p_cdio, 0, &cdb, SCSI_MMC_DATA_READ,
+                sizeof(buf), &buf);
+    if (i_status == 0) {
+        hexdump(stdout, buf, get_disc_structure_data_len(buf));
+    } else {
+        printf("Didn't get BD Structure.\n");
     }
   }
 

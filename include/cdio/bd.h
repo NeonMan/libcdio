@@ -31,6 +31,20 @@
 #ifndef CDIO_BD_H_
 #define CDIO_BD_H_
 
+/* Refer to T10/1675-D Revision 4  -- MMC-5 6.23.3.3 -- BD Disc Structures */
+/* Refer to T10/1836-D Revision 2g -- MMC-6 6.22.3.3 -- BD Disc Structures */
+
+#define CDIO_MMC_BD_SET_PAC_ID(cdb, pac_id) \
+  do{ \
+  cdb[2] = (pac_id >> 16) & 0xff; \
+  cdb[3] = (pac_id >>  8) & 0xff; \
+  cdb[4] = (pac_id      ) & 0xff; \
+  } while(false)
+
+#define CDIO_MMC_BD_SET_PAC_NUMBER(cdb, format_number) \
+  do{ \
+  cdb[5] = (format_number) & 0xff; \
+  } while(false)
 
 
 #endif

@@ -39,6 +39,7 @@
 #include <cdio/cdio.h>
 #include <cdio/types.h>
 #include <cdio/dvd.h>
+#include <cdio/bd.h>
 #include <cdio/audio.h>
 #include <cdio/mmc_util.h>
 
