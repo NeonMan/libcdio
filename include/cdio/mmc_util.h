@@ -119,7 +119,7 @@ extern "C" {
     bool mmc_is_disctype_rewritable(cdio_mmc_feature_profile_t disctype);
     
     /** The default read timeout is 3 minutes. */
-#define MMC_READ_TIMEOUT_DEFAULT 3*60*1000
+#define MMC_READ_TIMEOUT_DEFAULT (3*60*1000)
     
     /**
        Set this to the maximum value in milliseconds that we will

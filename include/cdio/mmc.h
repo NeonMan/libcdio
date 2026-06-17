@@ -509,48 +509,56 @@ typedef struct mmc_cdb_s {
   } cdio_mmc_subchannel_t;
 
 #define CDIO_MMC_SET_COMMAND(cdb, command)      \
-  cdb[0] = command
+  (cdb[0] = command)
 
 #define CDIO_MMC_SET_READ_TYPE(cdb, sector_type) \
-  cdb[1] = (sector_type << 2)
+  (cdb[1] = (sector_type << 2))
 
 #define CDIO_MMC_GETPOS_LEN16(p, pos)           \
-  (p[pos]<<8) + p[pos+1]
+  ((p[pos]<<8) + p[pos+1])
 
 #define CDIO_MMC_GET_LEN16(p)                   \
-  (p[0]<<8) + p[1]
+  ((p[0]<<8) + p[1])
 
 #define CDIO_MMC_GET_LEN32(p) \
-  (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+  ((p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3])
 
 #define CDIO_MMC_SET_LEN16(cdb, pos, len)       \
+  do {                                          \
   cdb[pos  ] = (len >>  8) & 0xff;              \
-  cdb[pos+1] = (len      ) & 0xff
+  cdb[pos+1] = (len      ) & 0xff;              \
+  } while(false)
 
 #define CDIO_MMC_SET_READ_LBA(cdb, lba)         \
+  do {                         \
   cdb[2] = (lba >> 24) & 0xff; \
   cdb[3] = (lba >> 16) & 0xff; \
   cdb[4] = (lba >>  8) & 0xff; \
-  cdb[5] = (lba      ) & 0xff
+  cdb[5] = (lba      ) & 0xff; \
+  } while(false)
 
 #define CDIO_MMC_SET_START_TRACK(cdb, command) \
-  cdb[6] = command
+  (cdb[6] = command)
 
 #define CDIO_MMC_SET_READ_LENGTH24(cdb, len) \
+  do {                         \
   cdb[6] = (len >> 16) & 0xff; \
   cdb[7] = (len >>  8) & 0xff; \
-  cdb[8] = (len      ) & 0xff
+  cdb[8] = (len      ) & 0xff; \
+  } while(false)
 
 #define CDIO_MMC_SET_READ_LENGTH16(cdb, len) \
   CDIO_MMC_SET_LEN16(cdb, 7, len)
 
 #define CDIO_MMC_SET_READ_LENGTH8(cdb, len) \
-  cdb[8] = (len      ) & 0xff
+  (cdb[8] = (len      ) & 0xff)
 
 #define CDIO_MMC_MCSB_ALL_HEADERS 0xf
 
 #define CDIO_MMC_SET_MAIN_CHANNEL_SELECTION_BITS(cdb, val) \
-  cdb[9] = val << 3;
+  do {               \
+  cdb[9] = val << 3; \
+  } while(false)
 
 /**
    Get the output port volumes and port selections used on AUDIO PLAY

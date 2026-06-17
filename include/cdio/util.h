@@ -68,7 +68,7 @@ _cdio_len2blocks (uint32_t i_len, uint16_t i_blocksize)
 
 /*! free() and NULL out p_obj it is not already null. */
 #define CDIO_FREE_IF_NOT_NULL(p_obj) \
-  if (NULL != p_obj) { free(p_obj); p_obj=NULL; };
+  if (NULL != p_obj) { free(p_obj); p_obj=NULL; }
 
 
 /* round up to next block boundary */

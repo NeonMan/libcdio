@@ -71,7 +71,7 @@ typedef char     dchar_t;  /*! See section 7.4.1 */
 /* This part borrowed from the bsd386 isofs */
 #define ISODCL(from, to)        ((to) - (from) + 1)
 
-#define MIN_TRACK_SIZE 4*75
+#define MIN_TRACK_SIZE (4*75)
 #define MIN_ISO_SIZE MIN_TRACK_SIZE
 
 /*! The following isn't really an enumeration one would really use in a
