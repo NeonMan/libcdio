@@ -543,9 +543,6 @@ typedef struct mmc_cdb_s {
 #define CDIO_MMC_SET_READ_LENGTH16(cdb, len) \
   CDIO_MMC_SET_LEN16(cdb, 7, len)
 
-#define CDIO_MMC_SET_READ_LENGTH8(cdb, len) \
-  cdb[8] = (len      ) & 0xff
-
 #define CDIO_MMC_MCSB_ALL_HEADERS 0xf
 
 #define CDIO_MMC_SET_MAIN_CHANNEL_SELECTION_BITS(cdb, val) \

@@ -629,7 +629,7 @@ mmc_audio_read_subchannel (CdIo_t *p_cdio,  cdio_subchannel_t *p_subchannel)
   memset(&cdb, 0, sizeof(mmc_cdb_t));
 
   CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_SUBCHANNEL);
-  CDIO_MMC_SET_READ_LENGTH8(cdb.field, sizeof(cdio_mmc_subchannel_t));
+  CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(cdio_mmc_subchannel_t));
 
   cdb.field[1] = CDIO_CDROM_MSF;
   cdb.field[2] = 0x40; /* subq */
@@ -774,7 +774,7 @@ mmc_get_discmode( const CdIo_t *p_cdio )
   memset(&cdb, 0, sizeof(mmc_cdb_t));
 
   CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_TOC);
-  CDIO_MMC_SET_READ_LENGTH8(cdb.field, sizeof(buf));
+  CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
 
   cdb.field[1] = CDIO_CDROM_MSF; /* The MMC-5 spec may require this. */
   cdb.field[2] = CDIO_MMC_READTOC_FMT_FULTOC;
@@ -1188,7 +1188,7 @@ mmc_have_interface( CdIo_t *p_cdio, cdio_mmc_feature_interface_t e_interface )
   if (!p_cdio || !p_cdio->op.run_mmc_cmd) return nope;
 
   CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_GET_CONFIGURATION);
-  CDIO_MMC_SET_READ_LENGTH8(cdb.field, sizeof(buf));
+  CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
 
   cdb.field[1] = CDIO_MMC_GET_CONF_NAMED_FEATURE;
   cdb.field[3] = CDIO_MMC_FEATURE_CORE;

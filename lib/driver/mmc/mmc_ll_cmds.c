@@ -68,7 +68,7 @@ mmc_get_configuration(const CdIo_t *p_cdio, void *p_buf,
 
 {
     MMC_CMD_SETUP(CDIO_MMC_GPCMD_GET_CONFIGURATION);
-    CDIO_MMC_SET_READ_LENGTH8(cdb.field, i_size);
+    CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_size);
     if (0 == i_timeout_ms) i_timeout_ms = mmc_timeout_ms;
     cdb.field[1] = i_return_type & 0x3;
     CDIO_MMC_SET_LEN16(cdb.field, 2, i_starting_feature_number);
@@ -380,7 +380,7 @@ mmc_read_disc_information(const CdIo_t *p_cdio, /*out*/ void *p_buf,
                           unsigned int i_timeout_ms)
 {
     MMC_CMD_SETUP(CDIO_MMC_GPCMD_READ_DISC_INFO);
-    CDIO_MMC_SET_READ_LENGTH8(cdb.field, i_size);
+    CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_size);
     if (0 == i_timeout_ms) i_timeout_ms = mmc_timeout_ms;
     cdb.field[1] = data_type & 0x7;
     return MMC_RUN_CMD(SCSI_MMC_DATA_READ, i_timeout_ms);
@@ -523,7 +523,7 @@ mmc_read_subchannel ( const CdIo_t *p_cdio,
     return DRIVER_OP_BAD_PARAMETER;
 
   CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_SUBCHANNEL);
-  CDIO_MMC_SET_READ_LENGTH8(cdb.field, i_size);
+  CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_size);
 
   if(CDIO_SUBCHANNEL_CURRENT_POSITION == sub_chan_param)
     cdb.field[1] = CDIO_CDROM_MSF;

@@ -55,7 +55,7 @@ main(int argc, const char *argv[])
     mmc_cdb_t cdb = {{0, }};   /* Command Descriptor Buffer */
 
     CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_GET_CONFIGURATION);
-    CDIO_MMC_SET_READ_LENGTH8(cdb.field, sizeof(buf));
+    CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
     cdb.field[1] = CDIO_MMC_GET_CONF_ALL_FEATURES;
     cdb.field[3] = 0x0;
 
