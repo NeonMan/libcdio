@@ -93,7 +93,8 @@ mmc_get_event_status(const CdIo_t *p_cdio, uint8_t out_buf[2])
     const unsigned int i_size = sizeof(buf);
     driver_return_code_t i_status;
 
-    MMC_CMD_SETUP_READ16(CDIO_MMC_GPCMD_GET_EVENT_STATUS);
+    MMC_CMD_SETUP(CDIO_MMC_GPCMD_GET_EVENT_STATUS);
+    CDIO_MMC_SET_LEN16(cdb.field, 7, i_size);
 
     cdb.field[1] = 1;      /* We poll for info */
     cdb.field[4] = 1 << 4; /* We want Media events */
@@ -128,7 +129,9 @@ driver_return_code_t
 mmc_mode_select_10(CdIo_t *p_cdio, /*out*/ void *p_buf, unsigned int i_size,
                    int page, unsigned int i_timeout_ms)
 {
-    MMC_CMD_SETUP_READ16(CDIO_MMC_GPCMD_MODE_SELECT_10);
+    MMC_CMD_SETUP(CDIO_MMC_GPCMD_MODE_SELECT_10);
+    CDIO_MMC_SET_LEN16(cdb.field, 7, i_size);
+
     if (0 == i_timeout_ms) i_timeout_ms = mmc_timeout_ms;
     cdb.field[1] = page;
     return MMC_RUN_CMD(SCSI_MMC_DATA_WRITE, i_timeout_ms);
@@ -147,7 +150,9 @@ driver_return_code_t
 mmc_mode_sense_10(CdIo_t *p_cdio, void *p_buf, unsigned int i_size,
                   unsigned int page)
 {
-    MMC_CMD_SETUP_READ16(CDIO_MMC_GPCMD_MODE_SENSE_10);
+    MMC_CMD_SETUP(CDIO_MMC_GPCMD_MODE_SENSE_10);
+    CDIO_MMC_SET_LEN16(cdb.field, 7, i_size);
+
     cdb.field[2] = CDIO_MMC_ALL_PAGES & page;
     return MMC_RUN_CMD(SCSI_MMC_DATA_READ, mmc_timeout_ms);
 }
@@ -457,7 +462,8 @@ mmc_start_stop_unit(const CdIo_t *p_cdio, bool b_eject, bool b_immediate,
   void * p_buf = &buf;
   const unsigned int i_size = 0;
 
-  MMC_CMD_SETUP_READ16(CDIO_MMC_GPCMD_START_STOP_UNIT);
+  MMC_CMD_SETUP(CDIO_MMC_GPCMD_START_STOP_UNIT);
+  /* this command doesn't have an allocation length in its CDB */
 
   if (b_immediate) cdb.field[1] |= 1;
 
@@ -485,7 +491,9 @@ mmc_test_unit_ready(const CdIo_t *p_cdio, unsigned int i_timeout_ms)
 {
     const unsigned int i_size = 0;
     void  * p_buf = NULL;
-    MMC_CMD_SETUP_READ16(CDIO_MMC_GPCMD_TEST_UNIT_READY);
+
+    MMC_CMD_SETUP(CDIO_MMC_GPCMD_TEST_UNIT_READY);
+    /* this command doesn't have an allocation length in its CDB */
 
     if (0 == i_timeout_ms) i_timeout_ms = mmc_timeout_ms;
     return MMC_RUN_CMD(SCSI_MMC_DATA_NONE, i_timeout_ms);
