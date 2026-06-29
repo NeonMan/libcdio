@@ -71,7 +71,7 @@ main(int argc, const char *argv[])
     int i;
 
     CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DVD_STRUCTURE);
-    CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
+    CDIO_MMC_SET_LEN16(cdb.field, 8, sizeof(buf));
 
     for (i=0; i<=16; i++) {
 	cdb.field[7] = i; /* The format field */

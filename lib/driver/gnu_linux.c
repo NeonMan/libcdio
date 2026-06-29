@@ -974,7 +974,7 @@ _read_mode2_sectors_mmc (_img_private_t *p_env, void *p_buf, lba_t lba,
     int retval;
 
     CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_10);
-    CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_blocks);
+    CDIO_MMC_SET_LEN16(cdb.field, 7, i_blocks);
 
     if ((retval = mmc_set_blocksize (p_env->gen.cdio, M2RAW_SECTOR_SIZE)))
       return retval;
