@@ -553,7 +553,8 @@ AC_SUBST(HAVE_OS2_CDROM)
 AC_CHECK_FUNCS( [chdir drand48 fseeko fseeko64 ftruncate geteuid getgid \
 		 getuid getpwuid gettimeofday lseek64 lstat memcpy memset mkstemp rand \
 		 seteuid setegid snprintf setenv strndup unsetenv tzset sleep \
-		 _stati64 usleep vsnprintf readlink realpath gmtime_r localtime_r] )
+		 _stati64 usleep vsnprintf readlink realpath gmtime_r \
+                 localtime_r strtok_r] )
 
 # check for timegm() support
 AC_CHECK_FUNC(timegm, AC_DEFINE(HAVE_TIMEGM,1,

@@ -547,9 +547,11 @@ typedef struct mmc_cdb_s {
   cdb[8] = (len      ) & 0xff; \
   } while(false)
 
+/* @deprecated Use CDIO_MMC_SET_LEN16 instead */
 #define CDIO_MMC_SET_READ_LENGTH16(cdb, len) \
   CDIO_MMC_SET_LEN16(cdb, 7, len)
 
+/* @deprecated */
 #define CDIO_MMC_SET_READ_LENGTH8(cdb, len) \
   (cdb[8] = (len      ) & 0xff)
 

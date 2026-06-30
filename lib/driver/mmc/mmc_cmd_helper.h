@@ -35,16 +35,6 @@
                                                                         \
     CDIO_MMC_SET_COMMAND(cdb.field, mmc_cmd)
 
-/* Boilerplate initialization code to setup running MMC read command
-   needs to set the cdb 16-bit length field. See above
-   comment for MMC_CMD_SETUP.
-*/
-#define MMC_CMD_SETUP_READ16(mmc_cmd)                                   \
-    MMC_CMD_SETUP(mmc_cmd);                                             \
-                                                                        \
-    /* Setup to read header, to get length of data */                   \
-    CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_size)
-
 /* Boilerplate code to run a MMC command.
 
    We assume variables 'p_cdio', 'mmc_timeout_ms', 'cdb', 'i_size' and

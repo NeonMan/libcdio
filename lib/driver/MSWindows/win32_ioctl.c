@@ -1018,7 +1018,7 @@ read_fulltoc_win32mmc (_img_private_t *p_env)
   memset(&cdrom_toc_full, 0, sizeof(cdrom_toc_full));
 
   /* Setup to read header, to get length of data */
-  CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(cdrom_toc_full));
+  CDIO_MMC_SET_LEN16(cdb.field, 7, sizeof(cdrom_toc_full));
 
   i_status = run_mmc_cmd_win32ioctl (p_env, 1000*60*3,
                                      mmc_get_cmd_len(cdb.field[0]),

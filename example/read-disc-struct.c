@@ -86,9 +86,8 @@ main(int argc, const char *argv[])
     mmc_cdb_t cdb = {{0, }};     /* Command Descriptor Buffer */
     int i;
 
-    CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DISC_STRUCTURE);
-
-    CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(buf));
+    CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_DVD_STRUCTURE);
+    CDIO_MMC_SET_LEN16(cdb.field, 8, sizeof(buf));
 
     // Issue READ DISC STRUCTURE for media type 0 (DVD) for formats specified as mandatory on MMC spec 6.23.1
     static const uint8_t dvd_format_codes[] = {0, 1, 2, 3, 4, 5, 13, 0x0f, 0x20, 0x30, 0xff};

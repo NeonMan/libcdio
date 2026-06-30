@@ -676,7 +676,7 @@ read_toc_aspi (_img_private_t *p_env)
   /* Starting track */
   CDIO_MMC_SET_START_TRACK(cdb.field, 0);
 
-  CDIO_MMC_SET_READ_LENGTH16(cdb.field, sizeof(tocheader));
+  CDIO_MMC_SET_LEN16(cdb.field, 7, sizeof(tocheader));
 
   i_status = run_mmc_cmd_aspi (p_env, OP_TIMEOUT_MS,
                                mmc_get_cmd_len(cdb.field[0]),
@@ -702,7 +702,7 @@ read_toc_aspi (_img_private_t *p_env)
       return false;
     }
 
-    CDIO_MMC_SET_READ_LENGTH16(cdb.field, i_toclength);
+    CDIO_MMC_SET_LEN16(cdb.field, 7, i_toclength);
 
     i_status = run_mmc_cmd_aspi (p_env, OP_TIMEOUT_MS,
                                  mmc_get_cmd_len(cdb.field[0]),
